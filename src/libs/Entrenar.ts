@@ -16,7 +16,7 @@ export   function entrenar(data: Data, rata: number, erroMaximoPer: number) {
       alert(
         `Estoy entrenado mi bro iteracion ${m}, error i:${ErrorIteracion} `
       );
-      GuardarPesos(w);
+      GuardarPesos(w,u);
       GuardarUmbrales(u);
       break;
     }
@@ -79,7 +79,6 @@ export   function entrenar(data: Data, rata: number, erroMaximoPer: number) {
       ErrorIteracion = sumaErroresPatrones / numPatrones;
     }
     totalErroreI.push(ErrorIteracion);
-
     errorPatrones = [];
   }
   console.log("ultimo peso", w);
