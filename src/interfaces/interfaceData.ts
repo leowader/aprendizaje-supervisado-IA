@@ -9,3 +9,12 @@ export interface Data {
   salidas: number[][];
   entradas: number[][];
 }
+export interface typeChart {
+  iteracion: string;
+  error: number;
+}
+export interface array {
+  datachart: typeChart[];
+}
+export type FuncionParametro = (errores: number[]) => void;
+export type HandleInputFileType = (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;

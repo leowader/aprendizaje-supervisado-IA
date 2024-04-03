@@ -1,7 +1,12 @@
-import { Data } from "../interfaces/interfaceData";
+import { Data, FuncionParametro } from "../interfaces/interfaceData";
 import { generarValoresAleatorios } from "./generarWyU";
-import { GuardarPesos, GuardarUmbrales } from "./guardarPesos";
-export   function entrenar(data: Data, rata: number, erroMaximoPer: number) {
+import { GuardarPesos } from "./guardarPesos";
+export function entrenar(
+  data: Data,
+  rata: number,
+  erroMaximoPer: number,
+  cargarDatosChart: FuncionParametro
+) {
   const { entradas, salidas, numEntradas, numSalidas, numPatrones } = data;
   let w = data.W;
   let u = data.U;
@@ -11,13 +16,13 @@ export   function entrenar(data: Data, rata: number, erroMaximoPer: number) {
   let Si = 0; //sumatoria de las salidas * pesos
   let erroresLineales: number[] = [];
   let errorPatrones: number[] = [];
-  for (let m = 0; m < 100; m++) {
+  for (let m = 0; m < 500; m++) {
     if (ErrorIteracion <= erroMaximoPer) {
       alert(
         `Estoy entrenado mi bro iteracion ${m}, error i:${ErrorIteracion} `
       );
-      GuardarPesos(w,u);
-      GuardarUmbrales(u);
+      GuardarPesos(w, u);
+      cargarDatosChart(totalErroreI);
       break;
     }
     for (let h = 0; h < numPatrones; h++) {
