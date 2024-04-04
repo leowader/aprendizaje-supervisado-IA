@@ -3,7 +3,7 @@ import { TraerPesosYumbrales } from "./guardarPesos";
 
 export const Simular = (data: Data, entradas: number[][]) => {
   const { u, w } = TraerPesosYumbrales();
-  const { salidas, numEntradas, numSalidas,numPatrones } = data;
+  const { salidas, numEntradas, numSalidas, numPatrones } = data;
   let Si = 0; //sumatoria de las salidas * pesos
   const salidasRed = [];
   const salidasRedNeu: number[][] = [];
@@ -23,14 +23,7 @@ export const Simular = (data: Data, entradas: number[][]) => {
       Si = 0; //reiniciamos la suma
     }
   }
-  // ciclo para aplicar la funcion de activacion
-  for (let i = 0; i < salidasRed.length; i++) {
-    if (salidasRed[i] >= 0) {
-      salidasRed[i] = 1;
-    } else {
-      salidasRed[i] = 0;
-    }
-  }
   console.log("salidas deseada", salidas);
   console.log("salida de la red neurnal ", salidasRedNeu);
+  return salidasRedNeu;
 };
