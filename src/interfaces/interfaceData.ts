@@ -16,5 +16,12 @@ export interface typeChart {
 export interface array {
   datachart: typeChart[];
 }
+interface wyuType {
+  u: number[];
+  w: number[][];
+}
 export type FuncionParametro = (errores: number[]) => void;
-export type HandleInputFileType = (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+export type HandleInputFileType = (
+  e: React.ChangeEvent<HTMLInputElement>
+) => Promise<void>;
+export type FuncionWyU = () => wyuType;

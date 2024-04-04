@@ -6,8 +6,13 @@ import { Data } from "./interfaces/interfaceData";
 import VerData from "./components/VerData";
 import { InputFile } from "./components/InputFile";
 import { Parametros } from "./components/Parametros";
+import { Simular } from "./libs/simulacion";
 function App() {
   const [file, setFile] = useState<File>();
+  const [fileSimulaion, setFileSimulacion] = useState<File>();
+  const [dataSimulacion, setDataSimulacion] = useState({
+    entradas: [],
+  });
   const [data, setData] = useState<Data>({
     numEntradas: 0,
     numSalidas: 0,
@@ -23,14 +28,30 @@ function App() {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
-      const res = await enviarFile(selectedFile);
-      console.log("respuesa bacj", res?.data);
+      const res = await enviarFile(selectedFile, "file");
 
       if (res?.data) {
         setData(res.data[0]);
       }
     }
   };
+  const handleInputFileSimulacion = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedFile = e.target.files && e.target.files[0];
+    if (selectedFile) {
+      setFileSimulacion(selectedFile);
+      const res = await enviarFile(selectedFile, "simular");
+
+      if (res?.data) {
+        setDataSimulacion(res.data[0]);
+      }
+    }
+  };
+  if (dataSimulacion.entradas.length>0) {
+    Simular(data, dataSimulacion.entradas);
+  }
+
   return (
     <div className="flex justify-center flex-col w-full items-center gap-2 ">
       <h1 className="text-[70px]">
@@ -62,6 +83,10 @@ function App() {
       >
         {" "}
       </VerData>
+      <InputFile
+        handleInputFile={handleInputFileSimulacion}
+        name={fileSimulaion ? fileSimulaion.name : ""}
+      ></InputFile>
     </div>
   );
 }

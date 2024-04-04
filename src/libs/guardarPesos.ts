@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FuncionWyU } from "../interfaces/interfaceData";
 
 export async function GuardarPesos(w: number[][], u: number[]) {
   try {
@@ -16,3 +17,8 @@ export async function GuardarPesos(w: number[][], u: number[]) {
     console.log(error);
   }
 }
+export const TraerPesosYumbrales: FuncionWyU = () => {
+  const w = localStorage.getItem("w");
+  const u = localStorage.getItem("u");
+  return { w: JSON.parse(w!), u: JSON.parse(u!) };
+};
