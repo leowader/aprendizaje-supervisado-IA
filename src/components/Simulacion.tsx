@@ -2,14 +2,14 @@ import { FC } from "react";
 
 interface salidas {
   salidasRed: number[][];
-    salidaDeseadas: number[][];
+  salidaDeseadas: number[][];
 }
 export const SimulacionSalidas: FC<salidas> = ({
-    salidaDeseadas,
+  salidaDeseadas,
   salidasRed,
 }) => {
   return (
-    <div className="flex gap-2 mb-5">
+    <div className="flex gap-x-10 mb-5">
       <div className="flex flex-col items-center justify-center bg-white bg-opacity-5 rounded-lg p-2 ">
         {/* <span>salida deseada : {JSON.stringify(salidaDeseadas)}</span> */}
 

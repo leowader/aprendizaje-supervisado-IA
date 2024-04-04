@@ -12,7 +12,7 @@ function VerData(dataBanco: Data) {
     setDatosGrafica(datos);
   };
   const handleClick = () => {
-    entrenar(dataBanco, 0.1, 0.1, cargarDataChart);//entrenamiento de la red(databanco,rata,errormaximo,funcion)
+    entrenar(dataBanco, 0.7, 0.1, cargarDataChart);//entrenamiento de la red(databanco,rata,errormaximo,funcion)
   };
   return (
     <div className="flex flex-col justify-center items-center">
