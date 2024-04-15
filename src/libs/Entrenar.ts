@@ -5,17 +5,18 @@ export function entrenar(
   data: Data,
   rata: number,
   erroMaximoPer: number,
-  cargarDatosChart: FuncionParametro
+  cargarDatosChart: FuncionParametro,
+  iteraciones: number
 ) {
   const { entradas, salidas, numEntradas, numSalidas, numPatrones } = data;
   let w = data.W;
   let u = data.U;
   let ErrorIteracion: number = 1;
-  const ErroresItecarion = [];
+  let ErroresItecarion = [];
   let Si = 0; //sumatoria de las salidas * pesos
   let erroresLineales: number[] = [];
   let errorPatrones: number[] = [];
-  for (let m = 0; m < 1000; m++) {    //1000 es el numero de iteraciones
+  for (let m = 0; m < iteraciones; m++) {
     for (let h = 0; h < numPatrones; h++) {
       const salidasRed = [];
       for (let i = 0; i < numSalidas; i++) {
@@ -29,7 +30,6 @@ export function entrenar(
         const eli = salidas[h][i] - salidasRed[i]; //error lineal en la salida de la red
         erroresLineales.push(eli);
       }
-      // sumar errores lineales
       let sumaErroreslineales = 0;
       let ep = 0; //error en el patron
       for (let i = 0; i < erroresLineales.length; i++) {
@@ -37,19 +37,16 @@ export function entrenar(
       }
       ep = sumaErroreslineales / numSalidas; //calculamos el error en el patron 0
       errorPatrones.push(ep); //lo añadimos a una lista de errores en patrones
-      // aplicamos algoritmo de entrenamiento
-      // calculamos el nuevo peso (W)
       for (let i = 0; i < numSalidas; i++) {
         for (let j = 0; j < numEntradas; j++) {
           const nuevoPeso =
             w[j][i] + rata * erroresLineales[i] * entradas[h][j]; //calculamos el nuevo peso el 0
           w[j][i] = +nuevoPeso.toFixed(1); //aactualizamo los pesos
         }
-        const nuevoUmbral = u[i] + rata * erroresLineales[i] * 1;//calculamos el nuevo umbral
-        u[i] = +nuevoUmbral.toFixed(1);//actualizamos umbrals
+        const nuevoUmbral = u[i] + rata * erroresLineales[i] * 1; //calculamos el nuevo umbral
+        u[i] = +nuevoUmbral.toFixed(1); //actualizamos umbrals
       }
       erroresLineales = []; //reiniciamos los errores lineales
-      // calculamos el error de la iteracion
       let sumaErroresPatrones = 0;
       for (let i = 0; i < errorPatrones.length; i++) {
         sumaErroresPatrones += errorPatrones[i];
@@ -58,6 +55,10 @@ export function entrenar(
     }
     ErroresItecarion.push(+ErrorIteracion);
     errorPatrones = [];
+    if (m === iteraciones - 1) {
+      console.log("termine");
+    }
+    console.log("ciclo ", m, "error: ", ErrorIteracion);
     if (+ErroresItecarion[m] <= +erroMaximoPer) {
       alert("Entrenamiento completado correctamente");
       GuardarPesos(w, u);
@@ -69,5 +70,9 @@ export function entrenar(
       w = generarValoresAleatorios(numEntradas, numSalidas);
       u = generarValoresAleatorios(1, numSalidas)[0]; // Solo necesitamos un umbral para cada salida
     }
+  }
+  if (ErroresItecarion[ErroresItecarion.length - 1] > erroMaximoPer) {
+    ErroresItecarion = [];
+    alert("No se realizo el entrenamiento intente nuevamente");
   }
 }

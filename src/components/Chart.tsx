@@ -6,7 +6,7 @@ const dataFormatter = (number: number) =>
 export const AreaChartHero: FC<array> = ({ datachart }) => {
   return (
     <AreaChart
-      className="h-80 w-[1000px] mb-5"
+      className="h-80 w-[1000px]  mt-2 bg-black bg-opacity-20  rounded-lg p-4 mb-5"
       data={datachart}
       index="iteracion"
       showAnimation={true}

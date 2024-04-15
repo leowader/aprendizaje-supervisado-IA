@@ -6,8 +6,11 @@ interface inputType {
 }
 export const InputFile: React.FC<inputType> = ({ handleInputFile, name }) => {
   return (
-    <div className="flex items-center justify-center w-96">
-      <label className="flex flex-col items-center justify-center w-full  border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+    <div className="flex flex-col items-center justify-center ">
+
+      <label className="flex flex-col items-center justify-center w-full  border-2  border-dashed rounded-lg cursor-pointer  dark:hover:bg-bray-800 bg-black bg-opacity-20  border-gray-500 ">
+      <h2>Carga tu banco de datos</h2>
+
         <div className="flex flex-col items-center justify-center  ">
           <img
             className="h-24"
