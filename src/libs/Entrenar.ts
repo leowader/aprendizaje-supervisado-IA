@@ -55,20 +55,19 @@ export function entrenar(
     }
     ErroresItecarion.push(+ErrorIteracion);
     errorPatrones = [];
-    if (m === iteraciones - 1) {
-      console.log("termine");
-    }
-    console.log("ciclo ", m, "error: ", ErrorIteracion);
-    if (+ErroresItecarion[m] <= +erroMaximoPer) {
+    if (+ErrorIteracion <= +erroMaximoPer) {
       alert("Entrenamiento completado correctamente");
       GuardarPesos(w, u);
       cargarDatosChart(ErroresItecarion);
       break;
     }
     if (+ErrorIteracion.toFixed(3) === +ErroresItecarion[m].toFixed(3)) {
-      // Si los errores son iguales, generamos nuevos valores aleatorios para w y u
       w = generarValoresAleatorios(numEntradas, numSalidas);
       u = generarValoresAleatorios(1, numSalidas)[0]; // Solo necesitamos un umbral para cada salida
+    }
+    if (m === iteraciones - 1 && ErrorIteracion > erroMaximoPer) {
+      ErroresItecarion = [];
+      m = -1;
     }
   }
   if (ErroresItecarion[ErroresItecarion.length - 1] > erroMaximoPer) {

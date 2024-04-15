@@ -58,7 +58,7 @@ function App() {
     }
   };
   return (
-    <div className="flex justify-center flex-col w-full items-center gap-2 p-5">
+    <div className="flex justify-center flex-col w-full items-center gap-2 p-5  ">
       <h1 className="text-[50px]">
         Aprendizaje <span className="text-[#8E2FE3]">supervisado</span>{" "}
       </h1>
@@ -92,7 +92,7 @@ function App() {
         {" "}
       </VerData>
 
-      <div className="flex flex-col gap-5 bg-black bg-opacity-20 w-[1000px] rounded-lg p-4">
+      <div className="flex flex-col gap-5 bg-black bg-opacity-20  w-[1000px] rounded-lg p-4">
         {" "}
         <h2 className="text-xl font-bold">
           Simulacion <span className="text-[#8E2FE3]">de salidas</span>{" "}
@@ -121,6 +121,8 @@ function App() {
           </div>
         </div>
       </div>
+      <div className="bg-white h-96 w-96 absolute rounded-full opacity-5   pointer-events-none  -left-4 -top-4 blur-2xl"></div>
+      <div className="bg-[#9135E4] pointer-events-none  h-96 w-96 absolute rounded-full opacity-5  top-100 right-2   blur-2xl"></div>
     </div>
   );
 }

@@ -1,22 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Data, typeChart } from "../interfaces/interfaceData";
-import { entrenar } from "../libs/Entrenar";
+// import { entrenar } from "../libs/Entrenar";
+import { io } from "socket.io-client";
 import { AreaChartHero } from "./Chart";
-
+const socket = io("https://sockets-and-ia.onrender.com");
 function VerData(dataBanco: Data) {
-  const [datosGrafica, setDatosGrafica] = useState<typeChart[]>([]);
+  const [errores, setErrrores] = useState<typeChart[]>([]);
+  useEffect(() => {
+    socket.on("connect", () => {});
+
+    socket.on("graficas", (grafica) => {
+      if (grafica.iteracion === "iteracion 0") {
+        setErrrores([]);
+      }
+      setErrrores((data) => [...data, grafica]);
+      //datos itecacion
+      console.log(grafica);
+    });
+    return () => {
+      socket.off("graficas");
+      socket.off("connect");
+    };
+  }, []);
   const [iteracion, setIteracion] = useState(0);
   const [errorMaximo, setErrorMaximo] = useState(0);
   const [rata, setRata] = useState(0);
-  const cargarDataChart = (dataChart: number[]) => {
-    const datos: typeChart[] = [];
-    for (let i = 0; i < dataChart.length; i++) {
-      datos.push({ error: dataChart[i], iteracion: `ieteracion ${i}` });
-    }
-    setDatosGrafica(datos);
-  };
+
   const handleClick = () => {
-    entrenar(dataBanco, rata, errorMaximo, cargarDataChart, iteracion); //entrenamiento de la red(databanco,rata,errormaximo,funcion)
+    setErrrores([]);
+    socket.emit("graficas", {
+      mensaje: "empieza a graficar bro",
+      data:dataBanco,
+      rata:rata,
+      iteracion:iteracion,
+      errorMaximo:errorMaximo
+    });
+    // entrenar(dataBanco, rata, errorMaximo, cargarDataChart, iteracion); //entrenamiento de la red(databanco,rata,errormaximo,funcion)
   };
   return (
     <div className="flex flex-col justify-center items-center gap-2 mt-2">
@@ -79,13 +98,7 @@ function VerData(dataBanco: Data) {
         </button>
       </div>
 
-      {datosGrafica.length > 0 ? (
-        <>
-          <AreaChartHero datachart={datosGrafica}></AreaChartHero>
-        </>
-      ) : (
-        ""
-      )}
+      <AreaChartHero datachart={errores}></AreaChartHero>
     </div>
   );
 }

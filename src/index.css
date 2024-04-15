@@ -3,6 +3,7 @@
 @tailwind utilities;
 body{
   background-color: #1D1D1D;
+  background-image: url("./assets/a.svg");
   color: white;
   font-family: 'Schoolbell', cursive;
 }
