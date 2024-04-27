@@ -3,19 +3,25 @@ import { Data, typeChart } from "../interfaces/interfaceData";
 // import { entrenar } from "../libs/Entrenar";
 import { io } from "socket.io-client";
 import { AreaChartHero } from "./Chart";
-const socket = io("https://sockets-and-ia.onrender.com");
+import { GuardarPesos, TraerPesosYumbrales } from "../libs/guardarPesos";
+const socket = io("http://localhost:4000");
 function VerData(dataBanco: Data) {
   const [errores, setErrrores] = useState<typeChart[]>([]);
   useEffect(() => {
     socket.on("connect", () => {});
 
     socket.on("graficas", (grafica) => {
-      if (grafica.iteracion === "iteracion 0") {
-        setErrrores([]);
+      if (grafica.w != "") {
+        console.log(grafica.w);
+        localStorage.setItem("w", JSON.stringify(grafica.w));
+        localStorage.setItem("u", JSON.stringify(grafica.u));
+        GuardarPesos(grafica.w, grafica.u);
       }
+
       setErrrores((data) => [...data, grafica]);
+
       //datos itecacion
-      console.log(grafica);
+      // console.log(grafica);
     });
     return () => {
       socket.off("graficas");
@@ -28,14 +34,31 @@ function VerData(dataBanco: Data) {
 
   const handleClick = () => {
     setErrrores([]);
+    console.log({
+      mensaje: "empieza a graficar bro",
+      data: dataBanco,
+      rata: rata,
+      algoritmo: 2,
+      iteracion: iteracion,
+      errorMaximo: errorMaximo,
+    });
+
+    
     socket.emit("graficas", {
       mensaje: "empieza a graficar bro",
-      data:dataBanco,
-      rata:rata,
-      iteracion:iteracion,
-      errorMaximo:errorMaximo
+      data: dataBanco,
+      rata: rata,
+      algoritmo: 2,
+      iteracion: iteracion,
+      errorMaximo: errorMaximo,
     });
     // entrenar(dataBanco, rata, errorMaximo, cargarDataChart, iteracion); //entrenamiento de la red(databanco,rata,errormaximo,funcion)
+  };
+  const cancelar = () => {
+    socket.off("graficas");
+    socket.emit("cancelar", {
+      mensaje: "cancela las ieteraciones",
+    });
   };
   return (
     <div className="flex flex-col justify-center items-center gap-2 mt-2">
@@ -95,6 +118,9 @@ function VerData(dataBanco: Data) {
           onClick={handleClick}
         >
           Entrenar
+        </button>
+        <button onClick={cancelar} className="p-2 bg-black rounded-lg">
+          cancelar
         </button>
       </div>
 

@@ -1,24 +1,79 @@
 import { useForm } from "react-hook-form";
-
+import { generarValoresAleatorios } from "../libs/generarWyU";
 import { useState } from "react";
-function Formulario() {
+import { Data, FuncionConfig } from "../interfaces/interfaceData";
+import { TraerPesosYumbrales } from "../libs/guardarPesos";
+interface typeForm {
+  data: Data;
+  funcion: FuncionConfig;
+}
+function Formulario({ data, funcion }: typeForm) {
   const { register, handleSubmit } = useForm();
   const [inputs, setInputs] = useState<string[]>([]);
   const [click, setClik] = useState("");
+  const { numEntradas, numSalidas } = data;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     console.log(data);
     const capas: string[] = [];
+    const winit: any = [];
+    const uinit: any = [];
+    const fa: any = [];
     for (let i = 0; i < +data.numeroCapas; i++) {
       capas.push(`neuronasCapa${i + 1}`);
     }
-    console.log("inputs", inputs);
     setInputs(capas);
+
+    if (data.neuronasCapa1 && data.FAcapa1) {
+      winit.push(generarValoresAleatorios(numEntradas, data.neuronasCapa1));
+      uinit.push(generarValoresAleatorios(1, data.neuronasCapa1)[0]);
+      fa.push(data.FAcapa1);
+    }
+
+    if (data.neuronasCapa2 && data.FAcapa2) {
+      winit.push(
+        generarValoresAleatorios(data.neuronasCapa1, data.neuronasCapa2)
+      );
+      uinit.push(generarValoresAleatorios(1, data.neuronasCapa2)[0]);
+      fa.push(data.FAcapa2);
+    }
+
+    if (data.neuronasCapa3 && data.FAcapa3) {
+      winit.push(
+        generarValoresAleatorios(data.neuronasCapa2, data.neuronasCapa3)
+      );
+      uinit.push(generarValoresAleatorios(1, data.neuronasCapa3)[0]);
+      fa.push(data.FAcapa3);
+    }
+    for (let i = 0; i < inputs.length; i++) {
+      console.log("iin", inputs[i]);
+      if (i === inputs.length - 1) {
+        console.log("ultimo", inputs[i]);
+        winit.push(generarValoresAleatorios(data[inputs[i]], numSalidas));
+        uinit.push(generarValoresAleatorios(1, numSalidas)[0]);
+        fa.push(data.FAcapaSalida);
+      }
+    }
+    console.log("W enviar", winit);
+    console.log("U enviar", uinit[0]);
+    console.log("fa", fa);
+    const { w, u } = TraerPesosYumbrales();
+    if (w) {
+      console.log("se cambiaron pesos");
+    }
+    funcion({
+      w: w ? w : winit,
+      u: u ? u : uinit,
+      fa: fa,
+      numeroCapas: +data.numeroCapas,
+    });
   };
   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     let capas: string[] = [];
-    for (let i = 0; i < +e.target.value; i++) {
-      capas.push(`neuronasCapa${i}`);
+    if (+e.target.value < 4 && +e.target.value > 0) {
+      for (let i = 0; i < +e.target.value; i++) {
+        capas.push(`neuronasCapa${i + 1}`);
+      }
     }
     setInputs(capas);
     capas = [];

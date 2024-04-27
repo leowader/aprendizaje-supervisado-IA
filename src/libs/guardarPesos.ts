@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { FuncionWyU } from "../interfaces/interfaceData";
 
 export async function GuardarPesos(w: number[][], u: number[]) {
@@ -11,8 +11,8 @@ export async function GuardarPesos(w: number[][], u: number[]) {
       valueW: w,
       valueU: u,
     };
-    const response = await axios.post("http://127.0.0.1:8000/save", WyU);
-    console.log(response);
+    // const response = await axios.post("http://127.0.0.1:8000/save", WyU);
+    // console.log(response);
   } catch (error) {
     console.log(error);
   }

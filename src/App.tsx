@@ -2,7 +2,7 @@ import "@fontsource/schoolbell";
 import { useState } from "react";
 import React from "react";
 import { enviarFile } from "./api/axios";
-import { Data } from "./interfaces/interfaceData";
+import { Data, typeConfig } from "./interfaces/interfaceData";
 import VerData from "./components/VerData";
 import { InputFile } from "./components/InputFile";
 import { Parametros } from "./components/Parametros";
@@ -16,15 +16,28 @@ function App() {
   const [dataSimulacion, setDataSimulacion] = useState({
     entradas: [],
   });
+  const [configuration, setConfiguration] = useState({
+    w: [],
+    u: [],
+    fa: [],
+    numeroCapas:0
+  });
+  console.log("configuracion red", configuration);
+
+  const handleConfiguration = (data: typeConfig) => {
+    setConfiguration(data);
+  };
   const [data, setData] = useState<Data>({
     numEntradas: 0,
     numSalidas: 0,
     children: "",
     numPatrones: 0,
-    W: [],
-    U: [],
+    w: [],
+    u: [],
     cabeceras: [],
     salidas: [],
+    fa:[],
+    numeroCapas:0,
     entradas: [],
   });
 
@@ -63,7 +76,7 @@ function App() {
         Aprendizaje <span className="text-[#8E2FE3]">supervisado</span>{" "}
       </h1>
       <div className="flex gap-4  w-[1000px] ">
-        <div className="bg-black bg-opacity-20  w-full rounded-lg p-4 flex flex-col gap-2">
+        <div className="bg-black bg-opacity-20 entradas w-full rounded-lg p-4 flex flex-col gap-2">
           <InputFile
             handleInputFile={handleInputFile}
             name={file ? file.name : ""}
@@ -77,21 +90,22 @@ function App() {
             {" "}
           </Parametros>
         </div>
-        <Formulario></Formulario>
+        <Formulario data={data} funcion={handleConfiguration}></Formulario>
       </div>
       <VerData
+      numeroCapas={configuration.numeroCapas}
+        fa={configuration.fa}
         salidas={data?.salidas}
         entradas={data.entradas}
         cabeceras={data.cabeceras}
-        W={data.W}
-        U={data.U}
+        w={configuration.w}
+        u={configuration.u}
         numEntradas={data.numEntradas}
         numSalidas={data.numSalidas}
         numPatrones={data.numPatrones}
       >
         {" "}
       </VerData>
-
       <div className="flex flex-col gap-5 bg-black bg-opacity-20  w-[1000px] rounded-lg p-4">
         {" "}
         <h2 className="text-xl font-bold">

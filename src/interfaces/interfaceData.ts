@@ -3,11 +3,13 @@ export interface Data {
   children: string;
   numSalidas: number;
   numPatrones: number;
-  W: number[][];
-  U: number[];
   cabeceras: string[];
   salidas: number[][];
   entradas: number[][];
+  w: number[][];
+  u: number[];
+  fa: string[];
+  numeroCapas: number;
 }
 export interface typeChart {
   iteracion: string;
@@ -20,10 +22,10 @@ interface wyuType {
   u: number[];
   w: number[][];
 }
-export interface typeData{
-  errorMaximo:number,
-  rata:number,
-  iteraciones:number
+export interface typeData {
+  errorMaximo: number;
+  rata: number;
+  iteraciones: number;
 }
 export type HandleParametros = (data: typeData) => void;
 export type FuncionParametro = (errores: number[]) => void;
@@ -34,6 +36,13 @@ export type FuncionWyU = () => wyuType;
 export type Inputs = {
   numeroCapas: number;
   capa1: number;
-  capa2:number
-  capa3:number
+  capa2: number;
+  capa3: number;
 };
+export interface typeConfig {
+  w: [];
+  u: [];
+  fa: [];
+  numeroCapas: number;
+}
+export type FuncionConfig = (data: typeConfig) => void;
