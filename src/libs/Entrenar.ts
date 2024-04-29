@@ -9,8 +9,8 @@ export function entrenar(
   iteraciones: number
 ) {
   const { entradas, salidas, numEntradas, numSalidas, numPatrones } = data;
-  let w = data.W;
-  let u = data.U;
+  let w = data.w;
+  let u = data.u;
   let ErrorIteracion: number = 1;
   let ErroresItecarion = [];
   let Si = 0; //sumatoria de las salidas * pesos

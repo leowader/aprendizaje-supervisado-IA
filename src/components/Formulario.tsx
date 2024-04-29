@@ -54,9 +54,7 @@ function Formulario({ data, funcion }: typeForm) {
         fa.push(data.FAcapaSalida);
       }
     }
-    console.log("W enviar", winit);
-    console.log("U enviar", uinit[0]);
-    console.log("fa", fa);
+    localStorage.clear();
     const { w, u } = TraerPesosYumbrales();
     if (w) {
       console.log("se cambiaron pesos");
@@ -78,8 +76,7 @@ function Formulario({ data, funcion }: typeForm) {
     setInputs(capas);
     capas = [];
   };
-  const algoritmos = ["Correccion de errores", "Backpropagation"];
-
+  const algoritmos = ["Backpropagation", "Backpropagation Cascada"];
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -95,31 +92,34 @@ function Formulario({ data, funcion }: typeForm) {
         placeholder="Numero de capas"
       />
       {inputs.map((capa, i) => (
-        <div key={i} className="flex gap-2 justify-between">
-          <input
-            {...register(capa)}
-            className="p-2 w-full outline-0 rounded-lg border bg-transparent"
-            type="number"
-            placeholder={`numero de neuronas capa ${i + 1}`}
-          />
-          <select
-            className="bg-black bg-opacity-20 outline-0    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            {...register(`FAcapa${i + 1}`)}
-            id=""
-          >
-            <option className="bg-transparent " value="sigmoide">
-              sigmoide
-            </option>
-            <option className="bg-transparent" value="seno">
-              seno
-            </option>
-            <option className="bg-transparent" value="gausiana">
-              gausiana
-            </option>
-            <option className="bg-transparent" value="tangente">
-              tangente hiperbolica
-            </option>
-          </select>
+        <div key={i} className="flex gap-2 flex-col justify-between">
+          <label htmlFor="">{`Capa ${i + 1}`}</label>
+          <div className="flex gap-2">
+            <input
+              {...register(capa)}
+              className="p-2 w-full outline-0 rounded-lg border bg-transparent"
+              type="number"
+              placeholder={`numero de neuronas capa ${i + 1}`}
+            />
+            <select
+              className="bg-black bg-opacity-20 outline-0    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              {...register(`FAcapa${i + 1}`)}
+              id=""
+            >
+              <option className="bg-transparent " value="sigmoide">
+                sigmoide
+              </option>
+              <option className="bg-transparent" value="seno">
+                seno
+              </option>
+              <option className="bg-transparent" value="gaussiana">
+                gausiana
+              </option>
+              <option className="bg-transparent" value="tangente">
+                tangente hiperbolica
+              </option>
+            </select>
+          </div>
         </div>
       ))}
       <label htmlFor="">funcion de activacion capa de salidas</label>
@@ -134,7 +134,7 @@ function Formulario({ data, funcion }: typeForm) {
         <option className="bg-transparent" value="seno">
           seno
         </option>
-        <option className="bg-transparent" value="gausiana">
+        <option className="bg-transparent" value="gaussiana">
           gausiana
         </option>
         <option className="bg-transparent" value="tangente">
@@ -159,9 +159,16 @@ function Formulario({ data, funcion }: typeForm) {
           </div>
         ))}
       </div>
-      <button className="bg-black bg-opacity-50 text-white p-2 rounded-lg">
-        Confirmar
-      </button>
+      <div className="flex gap-2">
+        {" "}
+        <button className="bg-black w-full bg-opacity-50 text-white p-2 rounded-lg">
+          Inicializar
+        </button>
+        <input
+          className=" w-full p-2 text-sm text-white border-none rounded-lg cursor-pointer cus:outline-none bg-black  bg-opacity-50"
+          type="file"
+        />
+      </div>
     </form>
   );
 }

@@ -9,6 +9,8 @@ import { Parametros } from "./components/Parametros";
 import { Simular } from "./libs/simulacion";
 import { SimulacionSalidas } from "./components/Simulacion";
 import Formulario from "./components/Formulario";
+import { TraerPesosYumbrales } from "./libs/guardarPesos";
+import { LineChartHero } from "./components/ChartSimulation";
 function App() {
   const [file, setFile] = useState<File>();
   const [fileSimulaion, setFileSimulacion] = useState<File>();
@@ -20,13 +22,14 @@ function App() {
     w: [],
     u: [],
     fa: [],
-    numeroCapas:0
+    numeroCapas: 0,
   });
   console.log("configuracion red", configuration);
-
   const handleConfiguration = (data: typeConfig) => {
     setConfiguration(data);
   };
+  const cambiarWyU=()=>{
+  }
   const [data, setData] = useState<Data>({
     numEntradas: 0,
     numSalidas: 0,
@@ -36,15 +39,17 @@ function App() {
     u: [],
     cabeceras: [],
     salidas: [],
-    fa:[],
-    numeroCapas:0,
+    fa: [],
+    numeroCapas: 0,
     entradas: [],
   });
-
   const handleInputFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
+
     if (selectedFile) {
       setFile(selectedFile);
+      console.log("file select ", e.target.files);
+
       const res = await enviarFile(selectedFile, "file");
       if (res?.data) {
         setData(res.data[0]);
@@ -75,8 +80,8 @@ function App() {
       <h1 className="text-[50px]">
         Aprendizaje <span className="text-[#8E2FE3]">supervisado</span>{" "}
       </h1>
-      <div className="flex gap-4  w-[1000px] ">
-        <div className="bg-black bg-opacity-20 entradas w-full rounded-lg p-4 flex flex-col gap-2">
+      <div className="flex gap-4  w-[1000px]    ">
+        <div className="bg-black bg-opacity-20  entradas w-full rounded-lg p-4 flex flex-col gap-2">
           <InputFile
             handleInputFile={handleInputFile}
             name={file ? file.name : ""}
@@ -93,7 +98,7 @@ function App() {
         <Formulario data={data} funcion={handleConfiguration}></Formulario>
       </div>
       <VerData
-      numeroCapas={configuration.numeroCapas}
+        numeroCapas={configuration.numeroCapas}
         fa={configuration.fa}
         salidas={data?.salidas}
         entradas={data.entradas}
@@ -135,6 +140,7 @@ function App() {
           </div>
         </div>
       </div>
+      <LineChartHero></LineChartHero>
       <div className="bg-white h-96 w-96 absolute rounded-full opacity-5   pointer-events-none  -left-4 -top-4 blur-2xl"></div>
       <div className="bg-[#9135E4] pointer-events-none  h-96 w-96 absolute rounded-full opacity-5  top-100 right-2   blur-2xl"></div>
     </div>

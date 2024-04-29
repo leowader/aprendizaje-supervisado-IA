@@ -32,6 +32,7 @@ export const InputFile: React.FC<inputType> = ({ handleInputFile, name }) => {
         <input
           id="dropzone-file"
           type="file"
+          multiple
           className="hidden"
           onChange={handleInputFile}
         />

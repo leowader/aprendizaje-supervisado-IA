@@ -17,6 +17,7 @@ export interface typeChart {
 }
 export interface array {
   datachart: typeChart[];
+  funcion: guardar;
 }
 interface wyuType {
   u: number[];
@@ -27,6 +28,7 @@ export interface typeData {
   rata: number;
   iteraciones: number;
 }
+export type guardar = () => void;
 export type HandleParametros = (data: typeData) => void;
 export type FuncionParametro = (errores: number[]) => void;
 export type HandleInputFileType = (
