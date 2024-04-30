@@ -31,6 +31,7 @@ export const simular=async (data:typeSimular)=>{
   try {
     return (await axios.post(`${url}/simular`,data)).data.data;
   } catch (error) {
+    console.log(error);
     
   }
 }

@@ -1,54 +1,8 @@
 import { LineChart } from "@tremor/react";
 import { comparationType } from "../interfaces/interfaceData";
-
-const chartdata = [
-  {
-    date: "yd1",
-    SalidaDeseada: 0,
-    "salid red": 0,
-  },
-  {
-    date: "yd1",
-    SalidaDeseada: 0,
-    "salid red": 0,
-  },
-  {
-    date: "yd2",
-    SalidaDeseada: 0,
-    "salid red": 0,
-  },
-  {
-    date: "yd2",
-    SalidaDeseada: 1,
-    "salid red": 1,
-  },
-  {
-    date: "yd1",
-    SalidaDeseada: 1,
-    "salid red": 0,
-  },
-  {
-    date: "yd1",
-    SalidaDeseada: 0,
-    "salid red": 0,
-  },
-  {
-    date: "yd2",
-    SalidaDeseada: 1,
-    "salid red": 1,
-  },
-  {
-    date: "yd2",
-    SalidaDeseada: 1,
-    "salid red": 1,
-  },
-];
-
 const dataFormatter = (number: number) =>
   `${number.toString()}`;
-
 export function LineChartHero({datachart}:comparationType) {
-  console.log("dataaaa",datachart);
   
   return (
     <div className="mt-2 bg-black bg-opacity-20 mb-2 rounded-lg">

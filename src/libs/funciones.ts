@@ -1,5 +1,4 @@
 import { comparation, typeConfigRes } from "../interfaces/interfaceData";
-
 export const buscarConfiguracion = (data: typeConfigRes[], id: string) => {
   return data.find((data) => data._id === id);
 };
@@ -34,8 +33,6 @@ export function generarValoresAleatorios(
   return valores;
 }
 export const graficarVs = (salida: number[][], salidaDeseada: number[][]) => {
-  console.log("deseada", salidaDeseada);
-
   let arraySalida: comparation[] = [];
   if (salidaDeseada) {
     for (let i = 0; i < salida.length; i++) {

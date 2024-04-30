@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Data, FuncionConfig } from "../interfaces/interfaceData";
-import { generarValoresAleatorios, TraerPesosYumbrales } from "../libs/funciones";
+import { funcionFormulario, handleChanges } from "../libs/handleFuntions";
 interface typeForm {
   data: Data;
   funcion: FuncionConfig;
@@ -14,67 +14,7 @@ function Formulario({ data, funcion }: typeForm) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     console.log(data);
-    const capas: string[] = [];
-    const winit: any = [];
-    const uinit: any = [];
-    const fa: any = [];
-    for (let i = 0; i < +data.numeroCapas; i++) {
-      capas.push(`neuronasCapa${i + 1}`);
-    }
-    setInputs(capas);
-
-    if (data.neuronasCapa1 && data.FAcapa1) {
-      winit.push(generarValoresAleatorios(numEntradas, data.neuronasCapa1));
-      uinit.push(generarValoresAleatorios(1, data.neuronasCapa1)[0]);
-      fa.push(data.FAcapa1);
-    }
-
-    if (data.neuronasCapa2 && data.FAcapa2) {
-      winit.push(
-        generarValoresAleatorios(data.neuronasCapa1, data.neuronasCapa2)
-      );
-      uinit.push(generarValoresAleatorios(1, data.neuronasCapa2)[0]);
-      fa.push(data.FAcapa2);
-    }
-
-    if (data.neuronasCapa3 && data.FAcapa3) {
-      winit.push(
-        generarValoresAleatorios(data.neuronasCapa2, data.neuronasCapa3)
-      );
-      uinit.push(generarValoresAleatorios(1, data.neuronasCapa3)[0]);
-      fa.push(data.FAcapa3);
-    }
-    for (let i = 0; i < inputs.length; i++) {
-      console.log("iin", inputs[i]);
-      if (i === inputs.length - 1) {
-        console.log("ultimo", inputs[i]);
-        winit.push(generarValoresAleatorios(data[inputs[i]], numSalidas));
-        uinit.push(generarValoresAleatorios(1, numSalidas)[0]);
-        fa.push(data.FAcapaSalida);
-      }
-    }
-    // localStorage.clear();
-    const { w, u } = TraerPesosYumbrales();
-    if (w) {
-      alert("se cambiaron pesos")
-      console.log("se cambiaron pesos");
-    }
-    funcion({
-      w: w ? w : winit,
-      u: u ? u : uinit,
-      fa: fa,
-      numeroCapas: +data.numeroCapas,
-    });
-  };
-  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let capas: string[] = [];
-    if (+e.target.value < 4 && +e.target.value > 0) {
-      for (let i = 0; i < +e.target.value; i++) {
-        capas.push(`neuronasCapa${i + 1}`);
-      }
-    }
-    setInputs(capas);
-    capas = [];
+    funcionFormulario(data,setInputs,inputs,numEntradas,numSalidas,funcion)
   };
   const algoritmos = ["Backpropagation", "Backpropagation Cascada"];
   return (
@@ -87,7 +27,7 @@ function Formulario({ data, funcion }: typeForm) {
       <input
         className="p-2 outline-0 rounded-lg border bg-transparent"
         {...register("numeroCapas")}
-        onChange={handleChanges}
+        onChange={(e)=>handleChanges(e,setInputs)}
         type="number"
         placeholder="Numero de capas"
       />
@@ -145,7 +85,6 @@ function Formulario({ data, funcion }: typeForm) {
         </option>
       </select>
       <label htmlFor="">Seleccione el algoritmo de entrenamiento</label>
-
       <div className="flex gap-2 ">
         {algoritmos.map((algoritmo, i) => (
           <div

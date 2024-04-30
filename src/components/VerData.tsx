@@ -39,11 +39,6 @@ function VerData(dataBanco: Data) {
       errorMaximo: errorMaximo,
     });
   };
-  const cancelar = () => {
-    socket.emit("cancelar", {
-      mensaje: "cancela las ieteraciones",
-    });
-  };
   return (
     <div className="flex flex-col justify-center items-center gap-2 mt-2">
       <div className="bg-black w-full bg-opacity-20 p-4   rounded-lg">
@@ -74,7 +69,6 @@ function VerData(dataBanco: Data) {
                 max={0.1}
                 step={"0.01"}
                 onChange={(e) => setErrorMaximo(+e.target.value)}
-                // {...register("iteraciones")}
                 className="w-full h-2 bg-black bg-opacity-30 rounded-lg appearance-none cursor-pointer "
               ></input>
               <span>Valor : {errorMaximo}</span>
@@ -101,9 +95,6 @@ function VerData(dataBanco: Data) {
           onClick={handleClick}
         >
           Entrenar
-        </button>
-        <button onClick={cancelar} className="p-2 bg-black rounded-lg">
-          cancelar
         </button>
       </div>
       <AreaChartHero

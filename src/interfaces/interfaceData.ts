@@ -19,6 +19,10 @@ export interface array {
   datachart: typeChart[];
   funcion: guardar;
 }
+export interface salidas {
+  salidasRed: number[][];
+  salidaDeseadas: number[][];
+}
 export interface comparation {
   yd: string;
   "Salida Red": number;
