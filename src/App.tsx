@@ -10,7 +10,7 @@ import { SimulacionSalidas } from "./components/Simulacion";
 import Formulario from "./components/Formulario";
 import { LineChartHero } from "./components/ChartSimulation";
 import { Select, SelectItem } from "@tremor/react";
-import { buscarConfiguracion } from "./libs/funciones";
+import { buscarConfiguracion, graficarVs } from "./libs/funciones";
 function App() {
   const [file, setFile] = useState<File>();
   const [fileSimulaion, setFileSimulacion] = useState<File>();
@@ -151,7 +151,7 @@ function App() {
               <Select
                 className="mt-2"
                 color="stone"
-                value={ `${config?._id}`}
+                value={`${config?._id}`}
                 onChange={handleRed}
               >
                 {redes.map((red, i) => (
@@ -173,7 +173,11 @@ function App() {
           </div>
         </div>
       </div>
-      <LineChartHero></LineChartHero>
+      {salidaRed.length > 0 && data.salidas.length > 0 && (
+        <LineChartHero
+          datachart={graficarVs(salidaRed, data.salidas)}
+        ></LineChartHero>
+      )}
       <div className="bg-white h-96 w-96 absolute rounded-full opacity-5   pointer-events-none  -left-4 -top-4 blur-2xl"></div>
       <div className="bg-[#9135E4] pointer-events-none  h-96 w-96 absolute rounded-full opacity-5  top-100 right-2   blur-2xl"></div>
     </div>

@@ -1,4 +1,5 @@
 import { LineChart } from "@tremor/react";
+import { comparationType } from "../interfaces/interfaceData";
 
 const chartdata = [
   {
@@ -46,7 +47,9 @@ const chartdata = [
 const dataFormatter = (number: number) =>
   `${number.toString()}`;
 
-export function LineChartHero() {
+export function LineChartHero({datachart}:comparationType) {
+  console.log("dataaaa",datachart);
+  
   return (
     <div className="mt-2 bg-black bg-opacity-20 mb-2 rounded-lg">
       <h2 className=" font-bold text-xl text-center mt-4 ">
@@ -55,10 +58,10 @@ export function LineChartHero() {
       </h2>
       <LineChart
         className="h-80 w-[1000px] rounded-lg p-4 "
-        data={chartdata}
-        index="date"
-        categories={["SalidaDeseada", "salid red"]}
-        colors={["green", "violet"]}
+        data={datachart}
+        index="yd"
+        categories={["Salida Red","Salida Deseada"]}
+        colors={["indigo","green"]}
         valueFormatter={dataFormatter}
         yAxisWidth={60}
         onValueChange={(v) => console.log(v)}

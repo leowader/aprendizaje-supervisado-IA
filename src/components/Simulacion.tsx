@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { graficarVs } from "../libs/funciones";
 
 interface salidas {
   salidasRed: number[][];
@@ -9,6 +10,7 @@ export const SimulacionSalidas: FC<salidas> = ({
   salidasRed,
 }) => {
   console.log("data a simular",salidaDeseadas,salidasRed);
+  console.log("graficar",graficarVs(salidasRed));
   
   return (
     <div className="flex gap-5  justify-center  ">

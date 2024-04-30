@@ -1,4 +1,4 @@
-import { typeConfigRes } from "../interfaces/interfaceData";
+import { comparation, typeConfigRes } from "../interfaces/interfaceData";
 
 export const buscarConfiguracion = (data: typeConfigRes[], id: string) => {
   return data.find((data) => data._id === id);
@@ -33,3 +33,20 @@ export function generarValoresAleatorios(
   }
   return valores;
 }
+export const graficarVs = (salida: number[][], salidaDeseada: number[][]) => {
+  console.log("deseada", salidaDeseada);
+
+  let arraySalida: comparation[] = [];
+  if (salidaDeseada) {
+    for (let i = 0; i < salida.length; i++) {
+      for (let j = 0; j < salida[0].length; j++) {
+        arraySalida.push({
+          yd: `salida [${i + 1},${j + 1}]`,
+          "Salida Red": salida[i][j],
+          "Salida Deseada": salidaDeseada[i][j],
+        });
+      }
+    }
+  }
+  return arraySalida;
+};
