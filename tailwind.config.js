@@ -47,7 +47,7 @@ export default {
             faint: "#0B1229",
             muted: colors.blue[950],
             subtle: colors.blue[800],
-            DEFAULT: colors.blue[500],
+            DEFAULT: colors.gray[500],
             emphasis: colors.blue[400],
             inverted: colors.blue[950],
           },

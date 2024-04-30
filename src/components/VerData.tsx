@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Data, typeChart } from "../interfaces/interfaceData";
 import { io } from "socket.io-client";
 import { AreaChartHero } from "./Chart";
-import { GuardarPesos, TraerPesosYumbrales } from "../libs/guardarPesos";
+import { GuardarPesos } from "../libs/funciones";
 const socket = io("http://localhost:4000");
 function VerData(dataBanco: Data) {
   const [iteracion, setIteracion] = useState(0);

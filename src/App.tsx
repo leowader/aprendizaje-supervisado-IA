@@ -1,35 +1,29 @@
 import "@fontsource/schoolbell";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
-import { enviarFile } from "./api/axios";
-import { Data, typeConfig } from "./interfaces/interfaceData";
+import { enviarFile, getConfigurations, simular } from "./api/axios";
+import { Data, typeConfig, typeConfigRes } from "./interfaces/interfaceData";
 import VerData from "./components/VerData";
 import { InputFile } from "./components/InputFile";
 import { Parametros } from "./components/Parametros";
-import { Simular } from "./libs/simulacion";
 import { SimulacionSalidas } from "./components/Simulacion";
 import Formulario from "./components/Formulario";
-import { TraerPesosYumbrales } from "./libs/guardarPesos";
 import { LineChartHero } from "./components/ChartSimulation";
+import { Select, SelectItem } from "@tremor/react";
+import { buscarConfiguracion } from "./libs/funciones";
 function App() {
   const [file, setFile] = useState<File>();
   const [fileSimulaion, setFileSimulacion] = useState<File>();
   const [salidaRed, setSalidasRed] = useState<number[][]>([]);
+  const [config, setCongig] = useState<typeConfigRes>();
+  const [redes, setRedes] = useState<typeConfigRes[]>([]);
   const [dataSimulacion, setDataSimulacion] = useState({
     entradas: [],
   });
-  const [configuration, setConfiguration] = useState({
-    w: [],
-    u: [],
-    fa: [],
-    numeroCapas: 0,
-  });
-  console.log("configuracion red", configuration);
+  const [configuration, setConfiguration] = useState<typeConfig>();
   const handleConfiguration = (data: typeConfig) => {
     setConfiguration(data);
   };
-  const cambiarWyU=()=>{
-  }
   const [data, setData] = useState<Data>({
     numEntradas: 0,
     numSalidas: 0,
@@ -43,13 +37,19 @@ function App() {
     numeroCapas: 0,
     entradas: [],
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getConfigurations();
+      setRedes(res);
+    };
+    fetchData();
+  }, []);
   const handleInputFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
 
     if (selectedFile) {
       setFile(selectedFile);
       console.log("file select ", e.target.files);
-
       const res = await enviarFile(selectedFile, "file");
       if (res?.data) {
         setData(res.data[0]);
@@ -63,18 +63,35 @@ function App() {
     if (selectedFile) {
       setFileSimulacion(selectedFile);
       const res = await enviarFile(selectedFile, "simular");
-
       if (res?.data) {
         setDataSimulacion(res.data[0]);
       }
     }
   };
-  const onSimular = () => {
+  const onSimular = async () => {
     if (dataSimulacion.entradas.length > 0) {
-      setSalidasRed(Simular(data, dataSimulacion.entradas));
-      alert("Simulacion realizada");
+      if (config) {
+        const res = await simular({
+          w: config.w,
+          u: config.u,
+          numeroCapas: config.numeroCapas,
+          entradas: dataSimulacion.entradas,
+          fa: config?.fa,
+        });
+        setSalidasRed(res);
+        if (res) {
+          alert("Simulacion realizada");
+        }
+      }
     }
   };
+  const handleRed = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("eeeaa", e);
+    console.log("ex", buscarConfiguracion(redes, e.toString()));
+    setCongig(buscarConfiguracion(redes, e.toString()));
+  };
+  console.log("config a enviar", config);
+
   return (
     <div className="flex justify-center flex-col w-full items-center gap-2 p-5  ">
       <h1 className="text-[50px]">
@@ -97,20 +114,22 @@ function App() {
         </div>
         <Formulario data={data} funcion={handleConfiguration}></Formulario>
       </div>
-      <VerData
-        numeroCapas={configuration.numeroCapas}
-        fa={configuration.fa}
-        salidas={data?.salidas}
-        entradas={data.entradas}
-        cabeceras={data.cabeceras}
-        w={configuration.w}
-        u={configuration.u}
-        numEntradas={data.numEntradas}
-        numSalidas={data.numSalidas}
-        numPatrones={data.numPatrones}
-      >
-        {" "}
-      </VerData>
+      {configuration?.numeroCapas && (
+        <VerData
+          numeroCapas={configuration!.numeroCapas}
+          fa={configuration!.fa}
+          salidas={data?.salidas}
+          entradas={data.entradas}
+          cabeceras={data.cabeceras}
+          w={configuration!.w}
+          u={configuration!.u}
+          numEntradas={data.numEntradas}
+          numSalidas={data.numSalidas}
+          numPatrones={data.numPatrones}
+        >
+          {" "}
+        </VerData>
+      )}
       <div className="flex flex-col gap-5 bg-black bg-opacity-20  w-[1000px] rounded-lg p-4">
         {" "}
         <h2 className="text-xl font-bold">
@@ -122,19 +141,33 @@ function App() {
               handleInputFile={handleInputFileSimulacion}
               name={fileSimulaion ? fileSimulaion.name : ""}
             ></InputFile>
-            <button
-              className="text-white bg-gradient-to-r mt-2 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
-              onClick={onSimular}
-            >
-              Simular
-            </button>
+            <div className="flex items-center ">
+              <button
+                className="text-white bg-gradient-to-r mt-2 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
+                onClick={onSimular}
+              >
+                Simular
+              </button>
+              <Select
+                className="mt-2"
+                color="stone"
+                value={ `${config?._id}`}
+                onChange={handleRed}
+              >
+                {redes.map((red, i) => (
+                  <SelectItem key={i} value={`${red._id}`}>
+                    Configracion {red._id}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
           </div>
           <div className="w-full ">
             {" "}
             {salidaRed.length > 0 && (
               <SimulacionSalidas
                 salidaDeseadas={data.salidas}
-                salidasRed={Simular(data, dataSimulacion.entradas)}
+                salidasRed={salidaRed}
               ></SimulacionSalidas>
             )}
           </div>

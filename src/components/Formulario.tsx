@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
-import { generarValoresAleatorios } from "../libs/generarWyU";
 import { useState } from "react";
 import { Data, FuncionConfig } from "../interfaces/interfaceData";
-import { TraerPesosYumbrales } from "../libs/guardarPesos";
+import { generarValoresAleatorios, TraerPesosYumbrales } from "../libs/funciones";
 interface typeForm {
   data: Data;
   funcion: FuncionConfig;
@@ -54,9 +53,10 @@ function Formulario({ data, funcion }: typeForm) {
         fa.push(data.FAcapaSalida);
       }
     }
-    localStorage.clear();
+    // localStorage.clear();
     const { w, u } = TraerPesosYumbrales();
     if (w) {
+      alert("se cambiaron pesos")
       console.log("se cambiaron pesos");
     }
     funcion({
