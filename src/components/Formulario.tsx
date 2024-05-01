@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Data, FuncionConfig } from "../interfaces/interfaceData";
 import { funcionFormulario, handleChanges } from "../libs/handleFuntions";
+import { useConfigStorage } from "../context/store";
+import { TraerPesosYumbrales } from "../libs/funciones";
 interface typeForm {
   data: Data;
   funcion: FuncionConfig;
@@ -11,10 +13,20 @@ function Formulario({ data, funcion }: typeForm) {
   const [inputs, setInputs] = useState<string[]>([]);
   const [click, setClik] = useState("");
   const { numEntradas, numSalidas } = data;
+  const setConfig = useConfigStorage((state) => state.setConfig);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     console.log(data);
-    funcionFormulario(data,setInputs,inputs,numEntradas,numSalidas,funcion)
+    const { w, u } = funcionFormulario(
+      data,
+      setInputs,
+      inputs,
+      numEntradas,
+      numSalidas,
+      funcion
+    );
+    setConfig({ w: w, u: u });
   };
   const algoritmos = ["Backpropagation", "Backpropagation Cascada"];
   return (
@@ -27,7 +39,7 @@ function Formulario({ data, funcion }: typeForm) {
       <input
         className="p-2 outline-0 rounded-lg border bg-transparent"
         {...register("numeroCapas")}
-        onChange={(e)=>handleChanges(e,setInputs)}
+        onChange={(e) => handleChanges(e, setInputs)}
         type="number"
         placeholder="Numero de capas"
       />

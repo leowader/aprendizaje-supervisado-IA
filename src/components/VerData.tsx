@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Data, typeChart } from "../interfaces/interfaceData";
 import { io } from "socket.io-client";
 import { AreaChartHero } from "./Chart";
-import { GuardarPesos } from "../libs/funciones";
+import { GuardarPesos, TraerPesosYumbrales } from "../libs/funciones";
+import { useConfigStorage } from "../context/store";
 const socket = io("http://localhost:4000");
 function VerData(dataBanco: Data) {
   const [iteracion, setIteracion] = useState(0);
@@ -10,6 +11,8 @@ function VerData(dataBanco: Data) {
   const [rata, setRata] = useState(0);
   const [errores, setErrrores] = useState<typeChart[]>([]);
   const [guardar, setGuardar] = useState({ w: [], u: [] });
+  const setConfig = useConfigStorage((state) => state.setConfig);
+
   useEffect(() => {
     socket.on("connect", () => {});
     socket.on("graficas", (grafica) => {
@@ -38,6 +41,12 @@ function VerData(dataBanco: Data) {
       iteracion: iteracion,
       errorMaximo: errorMaximo,
     });
+
+    const { w, u } = TraerPesosYumbrales();
+    if (w) {
+      alert("se cambiaron pesos");
+      setConfig({ u: u, w: w });
+    }
   };
   return (
     <div className="flex flex-col justify-center items-center gap-2 mt-2">

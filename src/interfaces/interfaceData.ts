@@ -60,6 +60,10 @@ export interface typeConfig {
   fa: [];
   numeroCapas: number;
 }
+export interface typeConfigZustand {
+  fa: [];
+  numeroCapas: number;
+}
 export interface typeConfigRes {
   w: [];
   u: [];
@@ -67,4 +71,4 @@ export interface typeConfigRes {
   _id: string;
   numeroCapas: number;
 }
-export type FuncionConfig = (data: typeConfig) => void;
+export type FuncionConfig = (data: typeConfigZustand) => void;

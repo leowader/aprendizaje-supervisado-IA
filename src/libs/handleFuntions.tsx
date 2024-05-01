@@ -1,6 +1,8 @@
 import { enviarFile, simular } from "../api/axios";
 import { FuncionConfig } from "../interfaces/interfaceData";
-import { generarValoresAleatorios, TraerPesosYumbrales } from "./funciones";
+import React from "react";
+import { generarValoresAleatorios } from "./funciones";
+import { useConfigStorage } from "../context/store";
 export const handleChanges = (
   e: React.ChangeEvent<HTMLInputElement>,
   setInputs: React.Dispatch<React.SetStateAction<string[]>>
@@ -57,20 +59,15 @@ export const funcionFormulario = (
       fa.push(data.FAcapaSalida);
     }
   }
+
   // localStorage.clear();
-  const { w, u } = TraerPesosYumbrales();
-  if (w) {
-    alert("se cambiaron pesos");
-  }
   funcion({
-    w: w ? w : winit,
-    u: u ? u : uinit,
     fa: fa,
     numeroCapas: +data.numeroCapas,
   });
   return {
-    w: w ? w : winit,
-    u: u ? u : uinit,
+    w: winit,
+    u: uinit,
     fa: fa,
     numeroCapas: +data.numeroCapas,
   };
