@@ -12,7 +12,7 @@ export const useConfigStorage = create<AuthStore>((set) => ({
   config: { w: [[1, 0, 1]], u: [1, 0, 1] },
 
   setConfig: (newConfig: typeConfig) => {
-    set((state) => ({
+    set(() => ({
       config: newConfig,
     }));
   },

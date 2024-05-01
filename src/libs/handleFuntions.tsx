@@ -2,7 +2,6 @@ import { enviarFile, simular } from "../api/axios";
 import { FuncionConfig } from "../interfaces/interfaceData";
 import React from "react";
 import { generarValoresAleatorios } from "./funciones";
-import { useConfigStorage } from "../context/store";
 export const handleChanges = (
   e: React.ChangeEvent<HTMLInputElement>,
   setInputs: React.Dispatch<React.SetStateAction<string[]>>

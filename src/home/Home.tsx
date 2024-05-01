@@ -2,7 +2,7 @@ import React from "react";
 import "@fontsource/schoolbell";
 import { useEffect, useState } from "react";
 import { getConfigurations } from "../api/axios";
-import { Data, typeConfig, typeConfigRes, typeConfigZustand } from "../interfaces/interfaceData";
+import { Data, typeConfigRes, typeConfigZustand } from "../interfaces/interfaceData";
 import VerData from "../components/VerData";
 import { InputFile } from "../components/InputFile";
 import { Parametros } from "../components/Parametros";

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Data, FuncionConfig } from "../interfaces/interfaceData";
 import { funcionFormulario, handleChanges } from "../libs/handleFuntions";
 import { useConfigStorage } from "../context/store";
-import { TraerPesosYumbrales } from "../libs/funciones";
 interface typeForm {
   data: Data;
   funcion: FuncionConfig;
