@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import { AreaChartHero } from "./Chart";
 import { GuardarPesos, TraerPesosYumbrales } from "../libs/funciones";
 import { useConfigStorage } from "../context/store";
+import { toast } from "react-toastify";
 const socket = io("http://localhost:4000");
 function VerData(dataBanco: Data) {
   const [iteracion, setIteracion] = useState(0);
@@ -28,7 +29,7 @@ function VerData(dataBanco: Data) {
     };
   }, []);
   const guardarUltimosWyU = () => {
-    alert("se guardaron los ultimos pesos temporalmente");
+    toast.dark("Se guardaron los ultimos w y u temporalmente 🧭")
     GuardarPesos(guardar.w, guardar.u);
   };
   const handleClick = () => {

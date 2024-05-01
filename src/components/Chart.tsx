@@ -1,9 +1,8 @@
 import { AreaChart } from "@tremor/react";
 import { FC } from "react";
 import { array } from "../interfaces/interfaceData";
-const dataFormatter = (number: number) =>
-  `${Intl.NumberFormat("us").format(number).toString()}`;
-export const AreaChartHero: FC<array> = ({ datachart,funcion }) => {
+const dataFormatter = (number: number) => `${number}`;
+export const AreaChartHero: FC<array> = ({ datachart, funcion }) => {
   return (
     <div className="mt-2 bg-black bg-opacity-20 mb-2 rounded-lg">
       <AreaChart
@@ -17,7 +16,21 @@ export const AreaChartHero: FC<array> = ({ datachart,funcion }) => {
         yAxisWidth={60}
         onValueChange={(v) => console.log(v)}
       />
-      <button onClick={funcion} className="p-2 ml-10 bg-black bg-opacity-50 rounded-lg mb-5 hover:bg-opacity-30">Guardar ultimos pesos y umbrales</button>
+      <button
+        onClick={funcion}
+        className="p-2 ml-10 bg-black bg-opacity-50 rounded-lg mb-5 hover:bg-opacity-30"
+      >
+        Guardar ultimos pesos y umbrales
+      </button>
+      <button
+        onClick={() =>{
+          localStorage.clear()
+
+        } }
+        className="p-2 ml-2 bg-black bg-opacity-50 rounded-lg mb-5 hover:bg-opacity-30"
+      >
+        Limpiar Storage
+      </button>
     </div>
   );
 };

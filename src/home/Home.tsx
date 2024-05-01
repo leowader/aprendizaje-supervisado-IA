@@ -17,6 +17,7 @@ import {
   onSimular,
 } from "../libs/handleFuntions";
 import { useConfigStorage } from "../context/store";
+import { Flip, ToastContainer } from "react-toastify";
 const Home = () => {
   const [file, setFile] = useState<File>();
   const [fileSimulaion, setFileSimulacion] = useState<File>();
@@ -60,6 +61,8 @@ const Home = () => {
   const umbrales=useConfigStorage((state)=>state.config.u)
   return (
     <div className="flex justify-center flex-col w-full items-center gap-2 p-5  ">
+      <ToastContainer stacked transition={Flip}></ToastContainer>
+
       <h1 className="text-[50px]">
         Aprendizaje <span className="text-[#8E2FE3]">supervisado</span>{" "}
       </h1>
@@ -121,14 +124,14 @@ const Home = () => {
                 Simular
               </button>
               <Select
-                className="mt-2"
+                className="mt-2 "
                 color="stone"
                 value={`${config?._id}`}
                 onChange={handleRed}
               >
                 {redes.map((red, i) => (
                   <SelectItem key={i} value={`${red._id}`}>
-                    Configracion {red._id}
+                    Config {i+1} numero capas: {red.numeroCapas} fa: {red.fa+""}
                   </SelectItem>
                 ))}
               </Select>

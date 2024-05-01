@@ -2,6 +2,7 @@ import { enviarFile, simular } from "../api/axios";
 import { FuncionConfig } from "../interfaces/interfaceData";
 import React from "react";
 import { generarValoresAleatorios } from "./funciones";
+import { toast } from "react-toastify";
 export const handleChanges = (
   e: React.ChangeEvent<HTMLInputElement>,
   setInputs: React.Dispatch<React.SetStateAction<string[]>>
@@ -64,6 +65,7 @@ export const funcionFormulario = (
     fa: fa,
     numeroCapas: +data.numeroCapas,
   });
+  toast.dark("Configracion actualizada 👌")
   return {
     w: winit,
     u: uinit,
@@ -81,7 +83,6 @@ export const handleInputFile = async (
   if (selectedFile) {
     setFile(selectedFile);
     const res = await enviarFile(selectedFile, "file");
-
     if (res?.data) {
       setData(res.data[0]);
     }
@@ -115,9 +116,16 @@ export const onSimular = async (
         entradas: dataSimulacion.entradas,
         fa: config?.fa,
       });
+      console.log("config a simular w", config.w);
+
       setSalidasRed(res);
       if (res) {
-        alert("Simulacion realizada");
+        toast.dark("Simulacion realizada correctamente 🚀 ", {
+          style: {
+            background: "#3A3B3C",
+            color: "white",
+          },
+        });
       }
     }
   }

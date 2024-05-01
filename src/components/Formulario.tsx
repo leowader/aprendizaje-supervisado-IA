@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Data, FuncionConfig } from "../interfaces/interfaceData";
 import { funcionFormulario, handleChanges } from "../libs/handleFuntions";
 import { useConfigStorage } from "../context/store";
+import { enviarPesos } from "../api/axios";
+import { toast } from 'react-toastify';
 interface typeForm {
   data: Data;
   funcion: FuncionConfig;
@@ -13,7 +15,7 @@ function Formulario({ data, funcion }: typeForm) {
   const [click, setClik] = useState("");
   const { numEntradas, numSalidas } = data;
   const setConfig = useConfigStorage((state) => state.setConfig);
-
+  const nuevosW = useConfigStorage((state) => state.config.w);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     console.log(data);
@@ -27,6 +29,26 @@ function Formulario({ data, funcion }: typeForm) {
     );
     setConfig({ w: w, u: u });
   };
+  const handleInputChanges = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files && e.target.files[0];
+    if (selectedFile) {
+      console.log(selectedFile);
+      const res = await enviarPesos(selectedFile, "leer/wyu");
+      const { w, u } = res?.data.data;
+      if (w) {
+        setConfig({ w: w, u: u });
+        // alert("Pesos y umbrales cargados correctamente");
+        toast.success("Pesos y umbrales cargados correctamente 🚀 ",{
+          style: {
+            background: "#3A3B3C",
+            color: "white",
+          },
+        })
+      }
+    }
+  };
+  console.log("nuevo peosp", nuevosW);
+
   const algoritmos = ["Backpropagation", "Backpropagation Cascada"];
   return (
     <form
@@ -111,13 +133,24 @@ function Formulario({ data, funcion }: typeForm) {
       </div>
       <div className="flex gap-2">
         {" "}
-        <button className="bg-black w-full bg-opacity-50 text-white p-2 rounded-lg">
+        <button className="bg-black bg-opacity-50 text-white p-2 rounded-lg">
           Inicializar
         </button>
-        <input
-          className=" w-full p-2 text-sm text-white border-none rounded-lg cursor-pointer cus:outline-none bg-black  bg-opacity-50"
-          type="file"
-        />
+        <div className="flex items-center space-x-6 bg-black rounded-full bg-opacity-20">
+          <label className="block border border-transparent">
+            <input
+              type="file"
+              onChange={handleInputChanges}
+              className="block w-full text-sm text-white   outline-0
+        file:mr-4 file:py-3 file:px-3
+        file:rounded-full file:border-0
+        file:text-sm file:font-semibold
+        file:bg-[#301C42] file:text-violet-700
+        hover:file:bg-violet-300
+      "
+            />
+          </label>
+        </div>
       </div>
     </form>
   );
