@@ -1,6 +1,7 @@
 import { AreaChart } from "@tremor/react";
 import { FC } from "react";
 import { array } from "../interfaces/interfaceData";
+import { toast } from "react-toastify";
 const dataFormatter = (number: number) => `${number}`;
 export const AreaChartHero: FC<array> = ({ datachart, funcion }) => {
   return (
@@ -25,6 +26,7 @@ export const AreaChartHero: FC<array> = ({ datachart, funcion }) => {
       <button
         onClick={() =>{
           localStorage.clear()
+          toast.dark("Storage limpiado")
 
         } }
         className="p-2 ml-2 bg-black bg-opacity-50 rounded-lg mb-5 hover:bg-opacity-30"

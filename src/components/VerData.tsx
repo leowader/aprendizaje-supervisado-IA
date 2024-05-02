@@ -45,7 +45,11 @@ function VerData(dataBanco: Data) {
 
     const { w, u } = TraerPesosYumbrales();
     if (w) {
-      alert("se cambiaron pesos");
+      toast.info("Se utilizaran los ultimos pesos y umbrales 🕐",{
+        style:{
+          background:"#121212"
+        }
+      })
       setConfig({ u: u, w: w });
     }
   };
@@ -91,7 +95,7 @@ function VerData(dataBanco: Data) {
                 type="range"
                 min={0.01}
                 max={1}
-                step={"0.01"}
+                step={"0.1"}
                 onChange={(e) => setRata(+e.target.value)}
                 // {...register("iteraciones")}
                 className="w-full h-2 bg-black bg-opacity-30 rounded-lg appearance-none cursor-pointer "

@@ -2,6 +2,9 @@ import { comparation, typeConfigRes } from "../interfaces/interfaceData";
 export const buscarConfiguracion = (data: typeConfigRes[], id: string) => {
   return data.find((data) => data._id === id);
 };
+export const buscarArchivo = (data:any,name:string) => {  
+  return data.find((data:any) => data.name === name);
+};
 import { FuncionWyU } from "../interfaces/interfaceData";
 export async function GuardarPesos(w: number[][], u: number[]) {
   try {

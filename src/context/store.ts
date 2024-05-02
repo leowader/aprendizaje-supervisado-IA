@@ -7,10 +7,28 @@ export interface typeConfig {
 export type AuthStore = {
   config: typeConfig;
   setConfig: (newConfig: typeConfig) => void;
+  numeroCapas: number;
+  fa: string[];
+  pesosCargados: boolean;
+  setPesosCargados: () => void;
+  setCapas: (capas: number, fa: string[]) => void;
 };
 export const useConfigStorage = create<AuthStore>((set) => ({
   config: { w: [[1, 0, 1]], u: [1, 0, 1] },
-
+  setCapas: (numero: number, fa: string[]) => {
+    set(() => ({
+      numeroCapas: numero,
+      fa: fa,
+    }));
+  },
+  setPesosCargados: () => {
+    set(() => ({
+      pesosCargados: true,
+    }));
+  },
+  fa: ["sigmoide"],
+  pesosCargados: false,
+  numeroCapas: 0, //estado inicial
   setConfig: (newConfig: typeConfig) => {
     set(() => ({
       config: newConfig,

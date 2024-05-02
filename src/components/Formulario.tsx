@@ -1,21 +1,40 @@
 import { useForm } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Data, FuncionConfig } from "../interfaces/interfaceData";
-import { funcionFormulario, handleChanges } from "../libs/handleFuntions";
+import {
+  funcionFormulario,
+  handleChanges,
+  handleChanges2,
+} from "../libs/handleFuntions";
 import { useConfigStorage } from "../context/store";
 import { enviarPesos } from "../api/axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 interface typeForm {
   data: Data;
   funcion: FuncionConfig;
 }
 function Formulario({ data, funcion }: typeForm) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [inputs, setInputs] = useState<string[]>([]);
   const [click, setClik] = useState("");
   const { numEntradas, numSalidas } = data;
   const setConfig = useConfigStorage((state) => state.setConfig);
-  const nuevosW = useConfigStorage((state) => state.config.w);
+  const { w } = useConfigStorage((state) => state.config);
+  const numberCapas = useConfigStorage((state) => state.numeroCapas);
+  const setPesosCargados = useConfigStorage((state) => state.setPesosCargados);
+  const fa = useConfigStorage((state) => state.fa);
+  const pesosCargados=useConfigStorage((state) => state.pesosCargados)
+  useEffect(() => {
+    console.log("reinicie");
+    handleChanges2(numberCapas, setInputs);
+    for (let i = 0; i < numberCapas; i++) {
+      // @ts-ignore
+      setValue(`neuronasCapa${i + 1}`, w[i][0].length);
+      setValue(`FAcapa${i + 1}`, fa[i]);
+    }
+    setValue("FAcapaSalida", fa[fa.length - 1]);
+    setValue("numeroCapas", numberCapas);
+  }, [numberCapas]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     console.log(data);
@@ -27,28 +46,30 @@ function Formulario({ data, funcion }: typeForm) {
       numSalidas,
       funcion
     );
-    setConfig({ w: w, u: u });
+    if (pesosCargados===false) {
+      setConfig({ w: w, u: u });      
+      toast.dark("W y U generados aleatoreamente");
+    }
   };
   const handleInputChanges = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
-      console.log(selectedFile);
       const res = await enviarPesos(selectedFile, "leer/wyu");
-      const { w, u } = res?.data.data;
+      const { w, u, numeroCapas } = res?.data.data;
       if (w) {
+        // setCapas(numeroCapas);
+        setValue("numeroCapas", numeroCapas);
         setConfig({ w: w, u: u });
-        // alert("Pesos y umbrales cargados correctamente");
-        toast.success("Pesos y umbrales cargados correctamente 🚀 ",{
+        setPesosCargados();
+        toast.success("Pesos y umbrales cargados correctamente 🚀 ", {
           style: {
             background: "#3A3B3C",
             color: "white",
           },
-        })
+        });
       }
     }
   };
-  console.log("nuevo peosp", nuevosW);
-
   const algoritmos = ["Backpropagation", "Backpropagation Cascada"];
   return (
     <form
@@ -155,5 +176,4 @@ function Formulario({ data, funcion }: typeForm) {
     </form>
   );
 }
-
 export default Formulario;

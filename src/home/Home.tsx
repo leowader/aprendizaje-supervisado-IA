@@ -2,7 +2,11 @@ import React from "react";
 import "@fontsource/schoolbell";
 import { useEffect, useState } from "react";
 import { getConfigurations } from "../api/axios";
-import { Data, typeConfigRes, typeConfigZustand } from "../interfaces/interfaceData";
+import {
+  Data,
+  typeConfigRes,
+  typeConfigZustand,
+} from "../interfaces/interfaceData";
 import VerData from "../components/VerData";
 import { InputFile } from "../components/InputFile";
 import { Parametros } from "../components/Parametros";
@@ -27,6 +31,11 @@ const Home = () => {
   const [dataSimulacion, setDataSimulacion] = useState({
     entradas: [],
   });
+  const setCapas = useConfigStorage((state) => state.setCapas);
+  const setConfig = useConfigStorage((state) => state.setConfig);
+  const { w, u } = useConfigStorage((state) => state.config);
+  const numberCapas = useConfigStorage((state) => state.numeroCapas);
+  const fa = useConfigStorage((state) => state.fa);
   const [configuration, setConfiguration] = useState<typeConfigZustand>();
   const handleConfiguration = (data: typeConfigZustand) => {
     setConfiguration(data);
@@ -49,16 +58,33 @@ const Home = () => {
       const res = await getConfigurations();
       setRedes(res);
     };
-    localStorage.clear()
+    localStorage.clear();
     console.log("limpie storage");
-    
+
     fetchData();
   }, []);
   const handleRed = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const configSelect = buscarConfiguracion(redes, e.toString());
+    if (configSelect) {
+      const { w, u, numeroCapas, fa } = configSelect;
+      setConfig({ w: w, u: u });
+      setCapas(numeroCapas, fa);
+    }
+
     setCongig(buscarConfiguracion(redes, e.toString()));
   };
-  const pesos=useConfigStorage((state)=>state.config.w)
-  const umbrales=useConfigStorage((state)=>state.config.u)
+  const handleConfig = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const res = await handleInputFileSimulacion(
+      e,
+      setFileSimulacion,
+      setDataSimulacion
+    );
+    setConfig({ w: res.w, u: res.u });
+    console.log("respon se fo", res);
+    setCapas(res.numeroCapas, res.fa);
+  };
+  const pesos = useConfigStorage((state) => state.config.w);
+  const umbrales = useConfigStorage((state) => state.config.u);
   return (
     <div className="flex justify-center flex-col w-full items-center gap-2 p-5  ">
       <ToastContainer stacked transition={Flip}></ToastContainer>
@@ -107,19 +133,19 @@ const Home = () => {
         <div className="flex gap-5">
           <div className="w-full">
             <InputFile
-              handleInputFile={(e) =>
-                handleInputFileSimulacion(
-                  e,
-                  setFileSimulacion,
-                  setDataSimulacion
-                )
-              }
+              handleInputFile={(e) => handleConfig(e)}
               name={fileSimulaion ? fileSimulaion.name : ""}
             ></InputFile>
             <div className="flex items-center ">
               <button
                 className="text-white bg-gradient-to-r mt-2 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2"
-                onClick={() => onSimular(dataSimulacion, config, setSalidasRed)}
+                onClick={() =>
+                  onSimular(
+                    dataSimulacion,
+                    { w: w, u: u, fa: fa, numeroCapas: numberCapas },
+                    setSalidasRed
+                  )
+                }
               >
                 Simular
               </button>
@@ -131,7 +157,8 @@ const Home = () => {
               >
                 {redes.map((red, i) => (
                   <SelectItem key={i} value={`${red._id}`}>
-                    Config {i+1} numero capas: {red.numeroCapas} fa: {red.fa+""}
+                    Config {i + 1} numero capas: {red.numeroCapas} fa:{" "}
+                    {red.fa + ""}
                   </SelectItem>
                 ))}
               </Select>
@@ -158,5 +185,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

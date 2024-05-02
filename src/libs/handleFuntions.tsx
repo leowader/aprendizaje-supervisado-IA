@@ -1,7 +1,7 @@
-import { enviarFile, simular } from "../api/axios";
-import { FuncionConfig } from "../interfaces/interfaceData";
+import { enviarFile, enviarPesos, simular } from "../api/axios";
+import { FuncionConfig, typeConfigRes } from "../interfaces/interfaceData";
 import React from "react";
-import { generarValoresAleatorios } from "./funciones";
+import { buscarArchivo, generarValoresAleatorios } from "./funciones";
 import { toast } from "react-toastify";
 export const handleChanges = (
   e: React.ChangeEvent<HTMLInputElement>,
@@ -10,6 +10,19 @@ export const handleChanges = (
   let capas: string[] = [];
   if (+e.target.value < 4 && +e.target.value > 0) {
     for (let i = 0; i < +e.target.value; i++) {
+      capas.push(`neuronasCapa${i + 1}`);
+    }
+  }
+  setInputs(capas);
+  capas = [];
+};
+export const handleChanges2 = (
+  e: number,
+  setInputs: React.Dispatch<React.SetStateAction<string[]>>
+) => {
+  let capas: string[] = [];
+  if (+e < 4 && +e > 0) {
+    for (let i = 0; i < +e; i++) {
       capas.push(`neuronasCapa${i + 1}`);
     }
   }
@@ -65,7 +78,7 @@ export const funcionFormulario = (
     fa: fa,
     numeroCapas: +data.numeroCapas,
   });
-  toast.dark("Configracion actualizada 👌")
+  toast.dark("Configracion actualizada 👌");
   return {
     w: winit,
     u: uinit,
@@ -93,14 +106,36 @@ export const handleInputFileSimulacion = async (
   setFileSimulacion: React.Dispatch<React.SetStateAction<File | undefined>>,
   setDataSimulacion: any
 ) => {
-  const selectedFile = e.target.files && e.target.files[0];
-  if (selectedFile) {
-    setFileSimulacion(selectedFile);
-    const res = await enviarFile(selectedFile, "simular");
-    if (res?.data) {
-      setDataSimulacion(res.data[0]);
+  console.log("archivos seleccionados", e.target.files);
+  const files = e.target.files;
+  let response: typeConfigRes = {
+    w: [],
+    u: [],
+    numeroCapas: 0,
+    fa: [],
+    _id: "",
+  };
+  if (files) {
+    const configFile = buscarArchivo(Array.from(files), "configuracion.json");
+    const res = await enviarPesos(configFile, "leer/wyu");
+    response = res?.data.data;
+    console.log("res", res?.data.data);
+    const selectedFile = buscarArchivo(Array.from(files), "entradas.xlsx");
+    if (selectedFile) {
+      setFileSimulacion(selectedFile);
+      const res = await enviarFile(selectedFile, "simular");
+      if (res?.data) {
+        setDataSimulacion(res.data[0]);
+      }
+    } else {
+      toast.dark("Ups se le olvido subir el archivo de las entradas 🤦");
     }
   }
+  //ignore
+
+  console.log("response", response);
+
+  return response;
 };
 export const onSimular = async (
   dataSimulacion: any,
