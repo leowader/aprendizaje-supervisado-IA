@@ -34,7 +34,6 @@ function Formulario({ data, funcion }: typeForm) {
     }
     setValue("FAcapaSalida", fa[fa.length - 1]);
     setValue("numeroCapas", numberCapas);
-    reset();
   }, [numberCapas]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
