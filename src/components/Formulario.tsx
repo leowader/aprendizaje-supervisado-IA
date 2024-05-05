@@ -14,7 +14,7 @@ interface typeForm {
   funcion: FuncionConfig;
 }
 function Formulario({ data, funcion }: typeForm) {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
   const [inputs, setInputs] = useState<string[]>([]);
   const [click, setClik] = useState("");
   const { numEntradas, numSalidas } = data;
@@ -23,9 +23,9 @@ function Formulario({ data, funcion }: typeForm) {
   const numberCapas = useConfigStorage((state) => state.numeroCapas);
   const setPesosCargados = useConfigStorage((state) => state.setPesosCargados);
   const fa = useConfigStorage((state) => state.fa);
-  const pesosCargados=useConfigStorage((state) => state.pesosCargados)
+  const pesosCargados = useConfigStorage((state) => state.pesosCargados);
   useEffect(() => {
-    console.log("reinicie");
+    console.log("reinicie", numberCapas);
     handleChanges2(numberCapas, setInputs);
     for (let i = 0; i < numberCapas; i++) {
       // @ts-ignore
@@ -34,6 +34,7 @@ function Formulario({ data, funcion }: typeForm) {
     }
     setValue("FAcapaSalida", fa[fa.length - 1]);
     setValue("numeroCapas", numberCapas);
+    reset();
   }, [numberCapas]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
@@ -46,8 +47,8 @@ function Formulario({ data, funcion }: typeForm) {
       numSalidas,
       funcion
     );
-    if (pesosCargados===false) {
-      setConfig({ w: w, u: u });      
+    if (pesosCargados === false) {
+      setConfig({ w: w, u: u });
       toast.dark("W y U generados aleatoreamente");
     }
   };
@@ -156,6 +157,17 @@ function Formulario({ data, funcion }: typeForm) {
         {" "}
         <button className="bg-black bg-opacity-50 text-white p-2 rounded-lg">
           Inicializar
+        </button>
+        <button
+          className="bg-black bg-opacity-50 text-white p-2 rounded-lg"
+          type="button"
+          onClick={() => {
+            reset();
+
+            setInputs([]);
+          }}
+        >
+          Limpiar
         </button>
         <div className="flex items-center space-x-6 bg-black rounded-full bg-opacity-20">
           <label className="block border border-transparent">

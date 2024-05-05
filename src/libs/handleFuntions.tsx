@@ -42,9 +42,11 @@ export const funcionFormulario = (
   const winit: any = [];
   const uinit: any = [];
   const fa: any = [];
+  console.log("capss etaico",capas);
   for (let i = 0; i < +data.numeroCapas; i++) {
     capas.push(`neuronasCapa${i + 1}`);
   }
+  
   setInputs(capas);
   const generarCapa = (
     neuronasEntrada: number,
