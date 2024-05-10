@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "https://sockets-and-ia.onrender.com";
+const url = "http://localhost:4000";
 export const enviarFile = async (file: File, endpoint: string) => {
   try {
     const fileUpdate = new FormData();

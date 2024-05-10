@@ -5,7 +5,7 @@ import { AreaChartHero } from "./Chart";
 import { GuardarPesos, TraerPesosYumbrales } from "../libs/funciones";
 import { useConfigStorage } from "../context/store";
 import { toast } from "react-toastify";
-const socket = io("https://sockets-and-ia.onrender.com");
+const socket = io("http://localhost:4000");
 function VerData(dataBanco: Data) {
   const [iteracion, setIteracion] = useState(0);
   const [errorMaximo, setErrorMaximo] = useState(0);
@@ -13,7 +13,6 @@ function VerData(dataBanco: Data) {
   const [errores, setErrrores] = useState<typeChart[]>([]);
   const [guardar, setGuardar] = useState({ w: [], u: [] });
   const setConfig = useConfigStorage((state) => state.setConfig);
-
   useEffect(() => {
     socket.on("connect", () => {});
     socket.on("graficas", (grafica) => {
@@ -95,7 +94,7 @@ function VerData(dataBanco: Data) {
                 type="range"
                 min={0.01}
                 max={1}
-                step={"0.1"}
+                step={"0.01"}
                 onChange={(e) => setRata(+e.target.value)}
                 // {...register("iteraciones")}
                 className="w-full h-2 bg-black bg-opacity-30 rounded-lg appearance-none cursor-pointer "
