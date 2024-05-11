@@ -79,6 +79,7 @@ const Home = () => {
       setFileSimulacion,
       setDataSimulacion
     );
+    console.log("respon se fo", res);
     setConfig({ w: res.w, u: res.u });
     console.log("respon se fo", res);
     setCapas(res.numeroCapas, res.fa);

@@ -123,11 +123,15 @@ export const handleInputFileSimulacion = async (
     response = res?.data.data;
     console.log("res", res?.data.data);
     const selectedFile = buscarArchivo(Array.from(files), "entradas.xlsx");
+    console.log("entradas",selectedFile);
+    
     if (selectedFile) {
       setFileSimulacion(selectedFile);
       const res = await enviarFile(selectedFile, "simular");
       if (res?.data) {
         setDataSimulacion(res.data[0]);
+        console.log("aaa",res.data[0]);
+        
       }
     } else {
       toast.dark("Ups se le olvido subir el archivo de las entradas 🤦");
