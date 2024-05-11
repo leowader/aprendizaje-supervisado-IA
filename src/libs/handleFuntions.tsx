@@ -42,11 +42,11 @@ export const funcionFormulario = (
   const winit: any = [];
   const uinit: any = [];
   const fa: any = [];
-  console.log("capss etaico",capas);
+  console.log("capss etaico", capas);
   for (let i = 0; i < +data.numeroCapas; i++) {
     capas.push(`neuronasCapa${i + 1}`);
   }
-  
+
   setInputs(capas);
   const generarCapa = (
     neuronasEntrada: number,
@@ -91,22 +91,33 @@ export const funcionFormulario = (
 export const handleInputFile = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>,
-  setData: any
+  setData: any,
+  tipoBanco: string
 ) => {
   const selectedFile = e.target.files && e.target.files[0];
-
   if (selectedFile) {
     setFile(selectedFile);
-    const res = await enviarFile(selectedFile, "file");
-    if (res?.data) {
-      setData(res.data[0]);
+    if (tipoBanco === "letras") {
+      const res = await enviarFile(selectedFile, "file/binary");
+      if (res?.data) {
+        console.log("banco letras--", res.data);
+
+        setData(res.data[0]);
+      }
+    } else {
+      const res = await enviarFile(selectedFile, "file");
+      if (res?.data) {
+        console.log("banco lBINARIO--", res.data);
+        setData(res.data[0]);
+      }
     }
   }
 };
 export const handleInputFileSimulacion = async (
   e: React.ChangeEvent<HTMLInputElement>,
   setFileSimulacion: React.Dispatch<React.SetStateAction<File | undefined>>,
-  setDataSimulacion: any
+  setDataSimulacion: any,
+  tipoBanco: string
 ) => {
   console.log("archivos seleccionados", e.target.files);
   const files = e.target.files;
@@ -121,26 +132,28 @@ export const handleInputFileSimulacion = async (
     const configFile = buscarArchivo(Array.from(files), "configuracion.json");
     const res = await enviarPesos(configFile, "leer/wyu");
     response = res?.data.data;
-    console.log("res", res?.data.data);
     const selectedFile = buscarArchivo(Array.from(files), "entradas.xlsx");
-    console.log("entradas",selectedFile);
-    
+
     if (selectedFile) {
-      setFileSimulacion(selectedFile);
-      const res = await enviarFile(selectedFile, "simular");
-      if (res?.data) {
-        setDataSimulacion(res.data[0]);
-        console.log("aaa",res.data[0]);
-        
+      if (tipoBanco === "letras") {
+        setFileSimulacion(selectedFile);
+        const res = await enviarFile(selectedFile, "file/binary");
+        if (res?.data) {
+          setDataSimulacion(res.data[0]);
+        }
+      }
+      if (tipoBanco === "binary") {
+        setFileSimulacion(selectedFile);
+        const res = await enviarFile(selectedFile, "simular");
+        if (res?.data) {
+          setDataSimulacion(res.data[0]);
+        }
       }
     } else {
       toast.dark("Ups se le olvido subir el archivo de las entradas 🤦");
     }
   }
   //ignore
-
-  console.log("response", response);
-
   return response;
 };
 export const onSimular = async (
@@ -157,8 +170,6 @@ export const onSimular = async (
         entradas: dataSimulacion.entradas,
         fa: config?.fa,
       });
-      console.log("config a simular w", config.w);
-
       setSalidasRed(res);
       if (res) {
         toast.dark("Simulacion realizada correctamente 🚀 ", {

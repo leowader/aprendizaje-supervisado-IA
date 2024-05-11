@@ -31,6 +31,7 @@ const Home = () => {
   const [dataSimulacion, setDataSimulacion] = useState({
     entradas: [],
   });
+  const [tipoBanco, setTypoBanco] = useState("binary");
   const setCapas = useConfigStorage((state) => state.setCapas);
   const setConfig = useConfigStorage((state) => state.setConfig);
   const { w, u } = useConfigStorage((state) => state.config);
@@ -70,22 +71,25 @@ const Home = () => {
       setConfig({ w: w, u: u });
       setCapas(numeroCapas, fa);
     }
-
     setCongig(buscarConfiguracion(redes, e.toString()));
   };
   const handleConfig = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const res = await handleInputFileSimulacion(
       e,
       setFileSimulacion,
-      setDataSimulacion
+      setDataSimulacion,
+      tipoBanco
     );
-    console.log("respon se fo", res);
     setConfig({ w: res.w, u: res.u });
-    console.log("respon se fo", res);
     setCapas(res.numeroCapas, res.fa);
   };
   const pesos = useConfigStorage((state) => state.config.w);
   const umbrales = useConfigStorage((state) => state.config.u);
+  const handleBanco = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
+    // @ts-ignore
+    setTypoBanco(e);
+  };
   return (
     <div className="flex justify-center flex-col w-full items-center gap-2 p-5  ">
       <ToastContainer stacked transition={Flip}></ToastContainer>
@@ -95,8 +99,16 @@ const Home = () => {
       </h1>
       <div className="flex gap-4  w-[1000px]    ">
         <div className="bg-black bg-opacity-20  entradas w-full rounded-lg p-4 flex flex-col gap-2">
+          <Select color="stone" onChange={handleBanco} value={tipoBanco}>
+            <SelectItem value="binary" id="1">
+              Binario
+            </SelectItem>
+            <SelectItem value="letras" id="2">
+              <option value="">Letras</option>
+            </SelectItem>
+          </Select>
           <InputFile
-            handleInputFile={(e) => handleInputFile(e, setFile, setData)}
+            handleInputFile={(e) => handleInputFile(e, setFile, setData,tipoBanco)}
             name={file ? file.name : ""}
           ></InputFile>
           <h2>Parametros de entrada</h2>

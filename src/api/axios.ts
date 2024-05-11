@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:4000";
+const url = "https://sockets-and-ia.onrender.com";
 export const enviarFile = async (file: File, endpoint: string) => {
   try {
     const fileUpdate = new FormData();
@@ -17,10 +17,7 @@ export const enviarPesos = async (file: File, endpoint: string) => {
   try {
     const fileUpdate = new FormData();
     fileUpdate.append("file", file);
-    const response = await axios.post(
-      `${url}/${endpoint}`,
-      fileUpdate
-    );
+    const response = await axios.post(`${url}/${endpoint}`, fileUpdate);
     return response;
   } catch (error) {
     console.log(error);
@@ -33,18 +30,17 @@ export const getConfigurations = async () => {
     console.log("ocurrio un error en la peticon get", error);
   }
 };
-interface typeSimular{
+interface typeSimular {
   entradas: number[][];
   w: number[][];
   u: number[];
   fa: string[];
   numeroCapas: number;
 }
-export const simular=async (data:typeSimular)=>{
+export const simular = async (data: typeSimular) => {
   try {
-    return (await axios.post(`${url}/simular`,data)).data.data;
+    return (await axios.post(`${url}/simular`, data)).data.data;
   } catch (error) {
     console.log(error);
-    
   }
-}
+};

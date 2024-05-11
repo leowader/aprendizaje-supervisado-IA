@@ -1,5 +1,7 @@
 import { comparation, typeConfigRes } from "../interfaces/interfaceData";
 export const buscarConfiguracion = (data: typeConfigRes[], id: string) => {
+  console.log("LOG ID CONFIG",id);
+  
   return data.find((data) => data._id === id);
 };
 export const buscarArchivo = (data:any,name:string) => {  

@@ -1,3 +1,4 @@
+import { Select, SelectItem } from "@tremor/react";
 import { FC } from "react";
 
 interface parametros {
@@ -29,6 +30,7 @@ export const Parametros: FC<parametros> = ({
         <div className="w-5 h-5 rounded-full bg-[#8E2FE3] p-2"></div>
         <div>Numero patrones: {numPatrones} </div>
       </div>
+   
     </div>
   );
 };

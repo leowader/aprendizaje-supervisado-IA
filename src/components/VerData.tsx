@@ -5,7 +5,7 @@ import { AreaChartHero } from "./Chart";
 import { GuardarPesos, TraerPesosYumbrales } from "../libs/funciones";
 import { useConfigStorage } from "../context/store";
 import { toast } from "react-toastify";
-const socket = io("http://localhost:4000");
+const socket = io("https://sockets-and-ia.onrender.com");
 function VerData(dataBanco: Data) {
   const [iteracion, setIteracion] = useState(0);
   const [errorMaximo, setErrorMaximo] = useState(0);
@@ -28,7 +28,7 @@ function VerData(dataBanco: Data) {
     };
   }, []);
   const guardarUltimosWyU = () => {
-    toast.dark("Se guardaron los ultimos w y u temporalmente 🧭")
+    toast.dark("Se guardaron los ultimos w y u temporalmente 🧭");
     GuardarPesos(guardar.w, guardar.u);
   };
   const handleClick = () => {
@@ -44,11 +44,11 @@ function VerData(dataBanco: Data) {
 
     const { w, u } = TraerPesosYumbrales();
     if (w) {
-      toast.info("Se utilizaran los ultimos pesos y umbrales 🕐",{
-        style:{
-          background:"#121212"
-        }
-      })
+      toast.info("Se utilizaran los ultimos pesos y umbrales 🕐", {
+        style: {
+          background: "#121212",
+        },
+      });
       setConfig({ u: u, w: w });
     }
   };
