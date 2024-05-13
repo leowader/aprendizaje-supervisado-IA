@@ -44,21 +44,21 @@ export default {
         // dark mode
         "dark-tremor": {
           brand: {
-            faint: "#0B1229",
-            muted: colors.blue[950],
+            faint: "#2E1B3F",
+            muted: "#8E2FE3",
             subtle: colors.blue[800],
             DEFAULT: colors.gray[500],
             emphasis: colors.blue[400],
-            inverted: colors.blue[950],
+            inverted: "#8E2FE3",
           },
           background: {
-            muted: "#131A2B",
-            subtle: colors.gray[800],
-            DEFAULT: colors.gray[900],
-            emphasis: colors.gray[300],
+            muted: "#121212",
+            subtle: "#121212",
+            DEFAULT: "#121212",
+            emphasis:"#121212",
           },
           border: {
-            DEFAULT: colors.gray[800],
+            DEFAULT: "#6B7280",
           },
           ring: {
             DEFAULT: colors.gray[800],

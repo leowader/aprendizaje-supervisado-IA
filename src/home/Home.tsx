@@ -86,7 +86,6 @@ const Home = () => {
   const pesos = useConfigStorage((state) => state.config.w);
   const umbrales = useConfigStorage((state) => state.config.u);
   const handleBanco = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
     // @ts-ignore
     setTypoBanco(e);
   };
@@ -98,8 +97,16 @@ const Home = () => {
         Aprendizaje <span className="text-[#8E2FE3]">supervisado</span>{" "}
       </h1>
       <div className="flex gap-4  w-[1000px]    ">
-        <div className="bg-black bg-opacity-20  entradas w-full rounded-lg p-4 flex flex-col gap-2">
-          <Select color="stone" onChange={handleBanco} value={tipoBanco}>
+        <div className="bg-black bg-opacity-20  entradas w-full rounded-lg p-4 flex flex-col gap-4">
+        <h2 className="text-xl font-bold">
+          Escoja el  <span className="text-[#1FBB58]">tipo de banco</span>{" "}
+        </h2>
+          <Select
+            color="red"
+            className="tremor-background-[#fffff] "
+            onChange={handleBanco}
+            value={tipoBanco}
+          >
             <SelectItem value="binary" id="1">
               Binario
             </SelectItem>
@@ -108,7 +115,9 @@ const Home = () => {
             </SelectItem>
           </Select>
           <InputFile
-            handleInputFile={(e) => handleInputFile(e, setFile, setData,tipoBanco)}
+            handleInputFile={(e) =>
+              handleInputFile(e, setFile, setData, tipoBanco)
+            }
             name={file ? file.name : ""}
           ></InputFile>
           <h2>Parametros de entrada</h2>

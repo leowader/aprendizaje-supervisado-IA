@@ -25,7 +25,6 @@ function Formulario({ data, funcion }: typeForm) {
   const fa = useConfigStorage((state) => state.fa);
   const pesosCargados = useConfigStorage((state) => state.pesosCargados);
   useEffect(() => {
-    console.log("reinicie", numberCapas);
     handleChanges2(numberCapas, setInputs);
     for (let i = 0; i < numberCapas; i++) {
       // @ts-ignore
@@ -96,7 +95,7 @@ function Formulario({ data, funcion }: typeForm) {
               placeholder={`numero de neuronas capa ${i + 1}`}
             />
             <select
-              className="bg-black bg-opacity-20 outline-0    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-[#121212] outline-0    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               {...register(`FAcapa${i + 1}`)}
               id=""
             >
@@ -118,7 +117,7 @@ function Formulario({ data, funcion }: typeForm) {
       ))}
       <label htmlFor="">funcion de activacion capa de salidas</label>
       <select
-        className="bg-black bg-opacity-20 outline-0    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="bg-[#121212] outline-0    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         {...register(`FAcapaSalida`)}
         id=""
       >
@@ -154,11 +153,11 @@ function Formulario({ data, funcion }: typeForm) {
       </div>
       <div className="flex gap-2">
         {" "}
-        <button className="bg-black bg-opacity-50 text-white p-2 rounded-lg">
+        <button className="bg-black bg-opacity-40 text-white hover:bg-opacity-60 p-2 rounded-lg">
           Inicializar
         </button>
         <button
-          className="bg-black bg-opacity-50 text-white p-2 rounded-lg"
+          className="bg-black bg-opacity-40 hover:bg-opacity-60 text-white p-2 rounded-lg"
           type="button"
           onClick={() => {
             reset();

@@ -1,6 +1,4 @@
-import { Select, SelectItem } from "@tremor/react";
 import { FC } from "react";
-
 interface parametros {
   numEntradas: number;
   children: string;
