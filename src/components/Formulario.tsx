@@ -16,9 +16,10 @@ interface typeForm {
 function Formulario({ data, funcion }: typeForm) {
   const { register, handleSubmit, setValue, reset } = useForm();
   const [inputs, setInputs] = useState<string[]>([]);
-  const [click, setClik] = useState("");
   const { numEntradas, numSalidas } = data;
   const setConfig = useConfigStorage((state) => state.setConfig);
+  const setAlgortimo=useConfigStorage((state)=>state.setAlgoritmo);
+  const algortimo=useConfigStorage((state)=>state.algortimo);
   const { w } = useConfigStorage((state) => state.config);
   const numberCapas = useConfigStorage((state) => state.numeroCapas);
   const setPesosCargados = useConfigStorage((state) => state.setPesosCargados);
@@ -69,11 +70,11 @@ function Formulario({ data, funcion }: typeForm) {
       }
     }
   };
-  const algoritmos = ["Backpropagation", "Backpropagation Cascada"];
+  const algoritmos = ["Backpropagation Primitivo", "Backpropagation Cascada"];
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-3 bg-black bg-opacity-20 w-full rounded-lg p-4"
+      className="flex flex-col gap-3 bg-black justify-between bg-opacity-20 w-full rounded-lg p-4"
     >
       <h2 className="font-bold text-xl">Configuracion de la red </h2>
       <label htmlFor=""> Numero de capas ocultas</label>
@@ -141,10 +142,10 @@ function Formulario({ data, funcion }: typeForm) {
       <div className="flex gap-2 ">
         {algoritmos.map((algoritmo, i) => (
           <div
-            className={`p-2 rounded-lg bg-[#8E2FE3] bg-opacity-20 cursor-pointer text-[#8E2FE3] ${
-              click === algoritmo ? " bg-opacity-40 text-white" : ""
+            className={`p-2 rounded-lg  border border-[#8E2FE3]  bg-opacity-20 cursor-pointer text-[#8E2FE3] ${
+              algortimo === algoritmo ? " bg-[#8E2FE3] bg-opacity-20 text-[#8E2FE3]" : ""
             }`}
-            onClick={() => setClik(algoritmo)}
+            onClick={() => setAlgortimo(algoritmo)}
             key={i}
           >
             {algoritmo}

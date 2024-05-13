@@ -7,7 +7,7 @@ import {
   typeConfigRes,
   typeConfigZustand,
 } from "../interfaces/interfaceData";
-import VerData from "../components/VerData";
+import VerData from "../components/Training";
 import { InputFile } from "../components/InputFile";
 import { Parametros } from "../components/Parametros";
 import { SimulacionSalidas } from "../components/Simulacion";

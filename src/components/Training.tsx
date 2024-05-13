@@ -13,6 +13,7 @@ function VerData(dataBanco: Data) {
   const [errores, setErrrores] = useState<typeChart[]>([]);
   const [guardar, setGuardar] = useState({ w: [], u: [] });
   const setConfig = useConfigStorage((state) => state.setConfig);
+  const algortimo=useConfigStorage((state)=>state.algortimo);
   useEffect(() => {
     socket.on("connect", () => {});
     socket.on("graficas", (grafica) => {
@@ -37,7 +38,7 @@ function VerData(dataBanco: Data) {
       mensaje: "empieza a graficar bro",
       data: dataBanco,
       rata: rata,
-      algoritmo: 2,
+      algoritmo: algortimo,
       iteracion: iteracion,
       errorMaximo: errorMaximo,
     });
