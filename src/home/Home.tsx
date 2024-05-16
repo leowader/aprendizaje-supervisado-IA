@@ -177,10 +177,11 @@ const Home = () => {
                 value={`${config?._id}`}
                 onChange={handleRed}
               >
+                
                 {redes.map((red, i) => (
                   <SelectItem key={i} value={`${red._id}`}>
-                    Config {i + 1} numero capas: {red.numeroCapas} fa:{" "}
-                    {red.fa + ""}
+                        
+                    Configuracion: {red.banco}  numero capas: {red.numeroCapas}
                   </SelectItem>
                 ))}
               </Select>

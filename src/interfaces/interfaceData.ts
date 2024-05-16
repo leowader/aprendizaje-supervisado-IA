@@ -70,5 +70,14 @@ export interface typeConfigRes {
   fa: [];
   _id: string;
   numeroCapas: number;
+  banco:string
 }
 export type FuncionConfig = (data: typeConfigZustand) => void;
+export interface TypeDraw {
+  entradas: number;
+  salidas: number;
+  numcapas: number;
+  numcapa2?: number;
+  numCapas3?: number;
+  nuevoConjuntoEntradas?: number; // Nuevo conjunto de entradas opcional
+}

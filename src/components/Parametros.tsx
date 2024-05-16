@@ -1,4 +1,5 @@
 import { FC } from "react";
+import DialogRed from "./DialogRed";
 interface parametros {
   numEntradas: number;
   children: string;
@@ -11,7 +12,7 @@ export const Parametros: FC<parametros> = ({
   numPatrones,
 }) => {
   return (
-    <div className="flex flex-col gap-y-5">
+    <div className="flex flex-col gap-y-5 h-full">
       {" "}
       <div className="flex gap-2 items-center">
         {" "}
@@ -28,7 +29,7 @@ export const Parametros: FC<parametros> = ({
         <div className="w-5 h-5 rounded-full bg-[#8E2FE3] p-2"></div>
         <div>Numero patrones: {numPatrones} </div>
       </div>
-   
+      <DialogRed></DialogRed>
     </div>
   );
 };

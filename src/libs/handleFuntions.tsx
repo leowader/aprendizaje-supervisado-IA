@@ -86,6 +86,9 @@ export const funcionFormulario = (
     u: uinit,
     fa: fa,
     numeroCapas: +data.numeroCapas,
+    neuC1: data.neuronasCapa1,
+    neuC2: data.neuronasCapa2,
+    neuC3: data.neuronasCapa3,
   };
 };
 export const handleInputFile = async (
@@ -126,6 +129,7 @@ export const handleInputFileSimulacion = async (
     u: [],
     numeroCapas: 0,
     fa: [],
+    banco: "",
     _id: "",
   };
   if (files) {
@@ -137,7 +141,7 @@ export const handleInputFileSimulacion = async (
     if (selectedFile) {
       if (tipoBanco === "letras") {
         setFileSimulacion(selectedFile);
-        const res = await enviarFile(selectedFile, "file/binary");
+        const res = await enviarFile(selectedFile, "file/binary/simulaion");
         if (res?.data) {
           setDataSimulacion(res.data[0]);
         }

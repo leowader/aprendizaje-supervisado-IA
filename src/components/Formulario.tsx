@@ -23,6 +23,9 @@ function Formulario({ data, funcion }: typeForm) {
   const { w } = useConfigStorage((state) => state.config);
   const numberCapas = useConfigStorage((state) => state.numeroCapas);
   const setPesosCargados = useConfigStorage((state) => state.setPesosCargados);
+  const setNumeroEntradas=useConfigStorage((state)=>state.setNumeroEntradas)
+  const setCapas=useConfigStorage((state)=>state.setCapas)
+  const setNumeroCapas=useConfigStorage((state)=>state.setNumeroCpas)
   const fa = useConfigStorage((state) => state.fa);
   const pesosCargados = useConfigStorage((state) => state.pesosCargados);
   useEffect(() => {
@@ -37,8 +40,10 @@ function Formulario({ data, funcion }: typeForm) {
   }, [numberCapas]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    console.log(data);
-    const { w, u } = funcionFormulario(
+    console.log("aaaaaaaaaaaa",data.numeroCapas);
+    // setNumeroCapas(data.numeroCapas)
+  
+    const { w, u,neuC1 ,neuC2,neuC3,fa} = funcionFormulario(
       data,
       setInputs,
       inputs,
@@ -46,6 +51,13 @@ function Formulario({ data, funcion }: typeForm) {
       numSalidas,
       funcion
     );
+    console.log("neuuuu",neuC3);
+    console.log("FUNTION",fa);
+    
+    setCapas(data.numeroCapas,fa)
+    
+    setNumeroEntradas(numEntradas,numSalidas,+neuC1,+neuC2,+neuC3)
+
     if (pesosCargados === false) {
       setConfig({ w: w, u: u });
       toast.dark("W y U generados aleatoreamente");
