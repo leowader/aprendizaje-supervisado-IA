@@ -34,7 +34,14 @@ const Home = () => {
   const [tipoBanco, setTypoBanco] = useState("binary");
   const setCapas = useConfigStorage((state) => state.setCapas);
   const setConfig = useConfigStorage((state) => state.setConfig);
+  const setFileName = useConfigStorage((state) => state.setName);
   const { w, u } = useConfigStorage((state) => state.config);
+  console.log("PESOS Y UMBRALES",w,u);
+  if (file) {
+    setFileName(file.name)
+    
+  }
+  
   const numberCapas = useConfigStorage((state) => state.numeroCapas);
   const fa = useConfigStorage((state) => state.fa);
   const [configuration, setConfiguration] = useState<typeConfigZustand>();
@@ -82,6 +89,7 @@ const Home = () => {
     );
     setConfig({ w: res.w, u: res.u });
     setCapas(res.numeroCapas, res.fa);
+    
   };
   const pesos = useConfigStorage((state) => state.config.w);
   const umbrales = useConfigStorage((state) => state.config.u);

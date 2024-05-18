@@ -5,7 +5,7 @@ import { AreaChartHero } from "./Chart";
 import { GuardarPesos, TraerPesosYumbrales } from "../libs/funciones";
 import { useConfigStorage } from "../context/store";
 import { toast } from "react-toastify";
-const socket = io("http://localhost:4000");
+const socket = io("https://sockets-and-ia.onrender.com");
 function VerData(dataBanco: Data) {
   const [iteracion, setIteracion] = useState(0);
   const [errorMaximo, setErrorMaximo] = useState(0);

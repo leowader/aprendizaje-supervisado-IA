@@ -9,8 +9,10 @@ export type AuthStore = {
   numeroCapas: number;
   fa: string[];
   numCapa1:number,
+  nameAchivo:string,
   numCapa2:number,
   numCapa3:number,
+  setName:(name:string)=>void;
   setNumeroEntradas: (numero: number,salidas:number,capa1:number,capa2:number,capa3:number) => void;
   numEntradas: number;
   numSalidas:number
@@ -26,8 +28,15 @@ export const useConfigStorage = create<AuthStore>((set) => ({
   numEntradas: 0,
   numSalidas:0,
   numCapa1:0,
+  nameAchivo:"",
   numCapa2:0,
   numCapa3:0,
+  setName:(name:string)=>{
+    set(() => ({
+      nameAchivo: name,
+     
+    }));
+  },
   setNumeroCpas:(numero:number)=>{
     set(() => ({
       numeroCapas: numero,

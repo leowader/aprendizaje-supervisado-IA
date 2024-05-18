@@ -22,7 +22,7 @@ const Draw: FC<TypeDraw> = ({
     const width = canvas.parentElement?.clientWidth || 200;
     const height = Math.max(
       (entradas + salidas) * 60,
-      nuevoConjuntoEntradas * 2.5 * 35
+      nuevoConjuntoEntradas * 2 * 35
     ); // Asegura que el canvas sea lo suficientemente alto para ambos conjuntos de entradas
 
     canvas.width = width;

@@ -14,18 +14,26 @@ interface typeForm {
   funcion: FuncionConfig;
 }
 function Formulario({ data, funcion }: typeForm) {
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm();
   const [inputs, setInputs] = useState<string[]>([]);
   const { numEntradas, numSalidas } = data;
   const setConfig = useConfigStorage((state) => state.setConfig);
-  const setAlgortimo=useConfigStorage((state)=>state.setAlgoritmo);
-  const algortimo=useConfigStorage((state)=>state.algortimo);
+  const setAlgortimo = useConfigStorage((state) => state.setAlgoritmo);
+  const algortimo = useConfigStorage((state) => state.algortimo);
   const { w } = useConfigStorage((state) => state.config);
   const numberCapas = useConfigStorage((state) => state.numeroCapas);
   const setPesosCargados = useConfigStorage((state) => state.setPesosCargados);
-  const setNumeroEntradas=useConfigStorage((state)=>state.setNumeroEntradas)
-  const setCapas=useConfigStorage((state)=>state.setCapas)
-  const setNumeroCapas=useConfigStorage((state)=>state.setNumeroCpas)
+  const setNumeroEntradas = useConfigStorage(
+    (state) => state.setNumeroEntradas
+  );
+  const setCapas = useConfigStorage((state) => state.setCapas);
+  const setNumeroCapas = useConfigStorage((state) => state.setNumeroCpas);
   const fa = useConfigStorage((state) => state.fa);
   const pesosCargados = useConfigStorage((state) => state.pesosCargados);
   useEffect(() => {
@@ -40,10 +48,10 @@ function Formulario({ data, funcion }: typeForm) {
   }, [numberCapas]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    console.log("aaaaaaaaaaaa",data.numeroCapas);
-    // setNumeroCapas(data.numeroCapas)
-  
-    const { w, u,neuC1 ,neuC2,neuC3,fa} = funcionFormulario(
+    console.log("aaaaaaaaaaaa", data.numeroCapas);
+    setNumeroCapas(data.numeroCapas);
+
+    const { w, u, neuC1, neuC2, neuC3, fa } = funcionFormulario(
       data,
       setInputs,
       inputs,
@@ -51,12 +59,12 @@ function Formulario({ data, funcion }: typeForm) {
       numSalidas,
       funcion
     );
-    console.log("neuuuu",neuC3);
-    console.log("FUNTION",fa);
-    
-    setCapas(data.numeroCapas,fa)
-    
-    setNumeroEntradas(numEntradas,numSalidas,+neuC1,+neuC2,+neuC3)
+    console.log("neuuuu", neuC3);
+    console.log("FUNTION", fa);
+
+    setCapas(data.numeroCapas, fa);
+
+    setNumeroEntradas(numEntradas, numSalidas, +neuC1, +neuC2, +neuC3);
 
     if (pesosCargados === false) {
       setConfig({ w: w, u: u });
@@ -72,6 +80,8 @@ function Formulario({ data, funcion }: typeForm) {
         // setCapas(numeroCapas);
         setValue("numeroCapas", numeroCapas);
         setConfig({ w: w, u: u });
+        console.log("w", w);
+
         setPesosCargados();
         toast.success("Pesos y umbrales cargados correctamente 🚀 ", {
           style: {
@@ -102,11 +112,23 @@ function Formulario({ data, funcion }: typeForm) {
           <label htmlFor="">{`Capa ${i + 1}`}</label>
           <div className="flex gap-2">
             <input
-              {...register(capa)}
+              {...register(capa, {
+                min:
+                  i === 0
+                    ? {
+                        value: numEntradas*2,
+                        message: "valor no permitido",
+                      }
+                    : undefined,
+                required: { value: true, message: "campo requerido" },
+              })}
               className="p-2 w-full outline-0 rounded-lg border bg-transparent"
               type="number"
               placeholder={`numero de neuronas capa ${i + 1}`}
             />
+            {errors.neuronasCapa1 && (
+              <span>{errors.root?.message}</span>
+            )}
             <select
               className="bg-[#121212] outline-0    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               {...register(`FAcapa${i + 1}`)}
@@ -155,7 +177,9 @@ function Formulario({ data, funcion }: typeForm) {
         {algoritmos.map((algoritmo, i) => (
           <div
             className={`p-2 rounded-lg  border border-[#8E2FE3]  bg-opacity-20 cursor-pointer text-[#8E2FE3] ${
-              algortimo === algoritmo ? " bg-[#8E2FE3] bg-opacity-20 text-[#8E2FE3]" : ""
+              algortimo === algoritmo
+                ? " bg-[#8E2FE3] bg-opacity-20 text-[#8E2FE3]"
+                : ""
             }`}
             onClick={() => setAlgortimo(algoritmo)}
             key={i}

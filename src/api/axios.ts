@@ -1,11 +1,11 @@
 import axios from "axios";
-const url = "http://localhost:4000";
+const url = "https://sockets-and-ia.onrender.com";
 export const enviarFile = async (file: File, endpoint: string) => {
   try {
     const fileUpdate = new FormData();
     fileUpdate.append("file", file);
     const response = await axios.post(
-      `http://127.0.0.1:8000/${endpoint}`,
+      `https://sensor-ia-eqnq.onrender.com/${endpoint}`,
       fileUpdate
     );
     return response;
